@@ -11,32 +11,30 @@
 #ifndef NUCOG_EXPR_EXPR_HPP_INCLUDED
 #define NUCOG_EXPR_EXPR_HPP_INCLUDED
 
-#include <type_traits>
+#include <cstddef>
+#include <utility>
 
 namespace nucog
 {
   template<typename Tree> struct expr
   {
+    // Type detection
+    using is_expr_t = void;
+
     constexpr Tree& self()             noexcept { return static_cast<Tree&>(*this);       }
     constexpr Tree const& self() const noexcept { return static_cast<const Tree&>(*this); }
 
-    constexpr auto arity()  const noexcept { return self().arity(); }
-    constexpr auto tag()    const noexcept { return self().tag();   }
+    static constexpr auto arity() noexcept { return Tree::arity(); }
+    static constexpr auto tag()   noexcept { return Tree::tag();   }
 
-    template<std::size_t Index
-            , typename  = std::enable_if_t<(arity() != 0)>
-            >
-    constexpr decltype(auto) child() const noexcept
+    template<std::size_t Index> constexpr decltype(auto) child() const noexcept
     {
-      return self().child<Index>();
+      return self().template child<Index>();
     }
 
-    template<std::size_t Index
-            , typename  = std::enable_if_t<(arity() != 0)>
-            >
-    constexpr decltype(auto) child() noexcept
+    template<std::size_t Index> constexpr decltype(auto) child() noexcept
     {
-      return self().child<Index>();
+      return self().template child<Index>();
     }
   };
 }

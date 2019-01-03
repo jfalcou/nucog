@@ -8,19 +8,19 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
+#ifndef NUCOG_EXPR_CHILD_HPP_INCLUDED
+#define NUCOG_EXPR_CHILD_HPP_INCLUDED
 
-#include <nucog/expr/terminal.hpp>
-#include <tts/tts.hpp>
-#include <tts/tests/relation.hpp>
+#include <cstddef>
+#include <utility>
 
-TTS_CASE( "Check terminal properties" )
+namespace nucog
 {
-  using namespace nucog::literal;
-
-  auto s1  = $(x_);
-
-  TTS_EQUAL( s1.arity(), 0                        );
-  TTS_EQUAL( s1.tag()  , nucog::tags::terminal_{} );
-  TTS_EQUAL( s1.value(), "x_"_sym                 );
-  TTS_EQUAL( s1.value().str(), "x_"               );
+  template<std::size_t Index, typename Expression>
+  constexpr decltype(auto) child(Expression&& expr) noexcept
+  {
+    return std::forward<Expression>(expr).template child<Index>();
+  }
 }
+
+#endif

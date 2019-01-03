@@ -8,19 +8,25 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
+#ifndef NUCOG_SYMBOL_HPP_INCLUDED
+#define NUCOG_SYMBOL_HPP_INCLUDED
 
 #include <nucog/expr/terminal.hpp>
-#include <tts/tts.hpp>
-#include <tts/tests/relation.hpp>
 
-TTS_CASE( "Check terminal properties" )
+namespace nucog
 {
-  using namespace nucog::literal;
+  namespace naming
+  {
+    using namespace nucog::literal;
 
-  auto s1  = $(x_);
+    constexpr inline auto x_  = $(x_);
+    constexpr inline auto y_  = $(y_);
+    constexpr inline auto z_  = $(z_);
+  }
 
-  TTS_EQUAL( s1.arity(), 0                        );
-  TTS_EQUAL( s1.tag()  , nucog::tags::terminal_{} );
-  TTS_EQUAL( s1.value(), "x_"_sym                 );
-  TTS_EQUAL( s1.value().str(), "x_"               );
+  using naming::x_;
+  using naming::y_;
+  using naming::z_;
 }
+
+#endif

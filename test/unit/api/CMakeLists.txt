@@ -9,3 +9,4 @@
 ##==================================================================================================
 ## General API tests
 add_unit_test( "api" literal.cpp )
+add_unit_test( "api" terminal.cpp )

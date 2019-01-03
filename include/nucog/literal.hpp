@@ -12,13 +12,26 @@
 #define NUCOG_LITERAL_HPP_INCLUDED
 
 #include <cstdint>
+#include <type_traits>
 
 namespace nucog::literal
 {
+  // -----------------------------------------------------------------------------------------------
+  // Symbol hashing from literal string
   template<std::uint64_t Hash>
   struct symbol_id
   {
     static constexpr auto id() noexcept { return Hash; }
+
+    template<std::uint64_t H2> constexpr bool operator==( symbol_id<H2> const& ) const noexcept
+    {
+      return Hash == H2;
+    }
+
+    template<std::uint64_t H2> constexpr bool operator!=( symbol_id<H2> const& ) const noexcept
+    {
+      return Hash != H2;
+    }
   };
 
   template<typename... T > constexpr std::uint64_t hash(T... c) noexcept
@@ -34,6 +47,23 @@ namespace nucog::literal
   template<typename T, T... c> constexpr symbol_id<hash(c...)> operator"" _sym() noexcept
   {
     return {};
+  }
+
+  // -----------------------------------------------------------------------------------------------
+  // Literal integral constants
+  template<std::uint64_t N> using idx_ = std::integral_constant<std::uint64_t,N>;
+
+  template<char... c> constexpr std::uint64_t chars_to_int()
+  {
+    std::uint64_t value = 0;
+    char arr[] = {c...};
+    for(std::size_t i = 0;i<sizeof...(c);++i) value = value*10 + (arr[i] - '0');
+    return value;
+  }
+
+  template<char ...c> constexpr auto operator"" _c() noexcept
+  {
+    return idx_<chars_to_int<c...>()>{};
   }
 }
 

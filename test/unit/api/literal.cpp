@@ -1,11 +1,12 @@
 //==================================================================================================
-/**
-  EVE - Expressive Vector Engine
-  Copyright 2018 Joel FALCOU
+/*
+  NuCoG - Numerical Code Generator
+  Copyright 2019 Joel FALCOU
+  Copyright 2019 Vincent REVERDY
 
   Licensed under the MIT License <http://opensource.org/licenses/MIT>.
   SPDX-License-Identifier: MIT
-**/
+*/
 //==================================================================================================
 
 #include <nucog/literal.hpp>
@@ -29,6 +30,6 @@ TTS_CASE( "Check uniqueness of literal values " )
   auto s1p = "variable 1"_sym;
   auto s2  = "alas, another variable"_sym;
 
-  TTS_EQUAL    ( s1.id(), s1p.id() );
-  TTS_NOT_EQUAL( s1.id(), s2.id()  );
+  TTS_EQUAL    ( s1, s1p );
+  TTS_NOT_EQUAL( s1, s2  );
 }

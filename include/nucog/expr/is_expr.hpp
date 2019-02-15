@@ -8,19 +8,20 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
+#ifndef NUCOG_EXPR_IS_EXPR_HPP_INCLUDED
+#define NUCOG_EXPR_IS_EXPR_HPP_INCLUDED
 
-#include <nucog/expr/terminal.hpp>
-#include <tts/tts.hpp>
-#include <tts/tests/relation.hpp>
+#include <type_traits>
 
-TTS_CASE( "Check terminal properties" )
+namespace nucog
 {
-  using namespace nucog::literal;
+  template<typename T>
+  struct is_expr : std::is_base_of<expr<T>,T>
+  {};
 
-  auto s1  = $(x_);
+  template<typename T> using is_expr_t = typename is_expr<T>::type;
 
-  TTS_EQUAL( s1.arity(), 0                        );
-  TTS_EQUAL( s1.tag()  , nucog::tags::terminal_{} );
-  TTS_EQUAL( s1.value(), "x_"_sym                 );
-  TTS_EQUAL( s1.value().str(), "x_"               );
+  template<typename T> constexpr inline auto  is_expr_v = is_expr<T>::value;
 }
+
+#endif

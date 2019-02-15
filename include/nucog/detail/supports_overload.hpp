@@ -8,19 +8,16 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
+#ifndef NUCOG_DETAILS_SUPPORTS_OVERLOAD_HPP_INCLUDED
+#define NUCOG_DETAILS_SUPPORTS_OVERLOAD_HPP_INCLUDED
 
-#include <nucog/expr/terminal.hpp>
-#include <tts/tts.hpp>
-#include <tts/tests/relation.hpp>
+#include <nucog/expr/is_expr.hpp>
+#include <type_traits>
 
-TTS_CASE( "Check terminal properties" )
+namespace nucog
 {
-  using namespace nucog::literal;
-
-  auto s1  = $(x_);
-
-  TTS_EQUAL( s1.arity(), 0                        );
-  TTS_EQUAL( s1.tag()  , nucog::tags::terminal_{} );
-  TTS_EQUAL( s1.value(), "x_"_sym                 );
-  TTS_EQUAL( s1.value().str(), "x_"               );
+  template<typename... Args>
+  using supports_overload = std::enable_if_t<(is_expr_v<std::decay_t<Args>> || ...)> ;
 }
+
+#endif

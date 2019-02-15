@@ -15,6 +15,7 @@
 #include <nucog/expr/expr.hpp>
 #include <nucog/expr/tag.hpp>
 #include <nucog/literal.hpp>
+#include <utility>
 
 namespace nucog::tags
 {
@@ -23,12 +24,23 @@ namespace nucog::tags
 
 namespace nucog
 {
-  template<typename Symbol>
-  struct terminal : expr<terminal<Symbol>>
+  template<typename Symbol> struct terminal : expr<terminal<Symbol>>
   {
-    constexpr int             arity() const noexcept { return 0;  }
-    constexpr Symbol          value() const noexcept { return {}; }
-    constexpr tags::terminal_ tag()   const noexcept { return {}; }
+    static constexpr int             arity() noexcept { return 0;  }
+    static constexpr tags::terminal_ tag()   noexcept { return {}; }
+
+    terminal() noexcept = default;
+
+    terminal(Symbol const& s) noexcept : value_(s) {}
+    terminal(Symbol&&      s) noexcept : value_(std::move(s)) {}
+
+    constexpr Symbol value() const noexcept { return value_; }
+
+    // No child can be retrieved from terminal - use value()
+    template<std::size_t Index> constexpr Symbol const& child() const noexcept = delete;
+    template<std::size_t Index> constexpr Symbol&       child()       noexcept = delete;
+
+    Symbol value_;
   };
 }
 

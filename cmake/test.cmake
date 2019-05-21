@@ -16,7 +16,9 @@ set(uint_types      uint64 uint32 uint16 uint8        )
 set(integral_types  "${int_types};${uint_types}"      )
 set(all_types       "${real_types};${integral_types}" )
 
+##==================================================================================================
 ## Centralize all required setup for unit tests
+##==================================================================================================
 function(add_unit_test root)
   if( MSVC )
     set( options /std:c++latest -W3 -EHsc)
@@ -40,12 +42,12 @@ function(add_unit_test root)
     if (CMAKE_CROSSCOMPILING_CMD)
       add_test( NAME ${test}
                 WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/unit"
-                COMMAND ${CMAKE_CROSSCOMPILING_CMD} $<TARGET_FILE:${test}>
+                COMMAND ${CMAKE_CROSSCOMPILING_CMD} $<TARGET_FILE:${test}> --no-color --pass
               )
     else()
       add_test( NAME ${test}
                 WORKING_DIRECTORY "${PROJECT_BINARY_DIR}/unit"
-                COMMAND $<TARGET_FILE:${test}>
+                COMMAND $<TARGET_FILE:${test}> --no-color --pass
               )
     endif()
 
@@ -55,6 +57,14 @@ function(add_unit_test root)
                             ${MAKE_UNIT_TARGET_PROPERTIES}
                           )
 
+    target_include_directories( ${test}
+                                PRIVATE
+                                  ${tts_SOURCE_DIR}/include
+                                  ${PROJECT_SOURCE_DIR}/test
+                                  ${PROJECT_SOURCE_DIR}/include
+                              )
+
+    target_link_libraries(${test} tts)
     add_dependencies(unit ${test})
 
     add_parent_target(${test})
@@ -72,20 +82,19 @@ function (list_tests root unit)
   add_unit_test( ${unit} "${sources}" )
 endfunction()
 
+##==================================================================================================
 ## Disable testing/doc for tts
 set(TTS_BUILD_TEST OFF CACHE INTERNAL "OFF")
 set(TTS_BUILD_DOC  OFF CACHE INTERNAL "OFF")
 
 download_project( PROJ                tts
-                  GIT_REPOSITORY      git@github.com:jfalcou/tts.git
+                  GIT_REPOSITORY      https://github.com/jfalcou/tts.git
                   GIT_TAG             master
                   "UPDATE_DISCONNECTED 1"
                   QUIET
                 )
 
 add_subdirectory(${tts_SOURCE_DIR} ${tts_BINARY_DIR})
-include_directories("${tts_SOURCE_DIR}/include")
-include_directories("${PROJECT_SOURCE_DIR}/test")
 
 ## Setup our tests
 add_custom_target(tests)

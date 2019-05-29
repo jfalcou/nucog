@@ -1,0 +1,45 @@
+##==================================================================================================
+##  NuCoG - Numerical Code Generator
+##  Copyright 2019 Joel FALCOU
+##  Copyright 2019 Vincent Reverdy
+##
+##  Licensed under the MIT License <http://opensource.org/licenses/MIT>.
+##  SPDX-License-Identifier: MIT
+##==================================================================================================
+version: 2.1
+jobs:
+  gcc:
+    docker:
+      - image: gcc:latest
+        environment:
+          COMPILER: g++
+          REPLICATION: 8
+    steps:
+      - checkout
+      - run:
+          name: Setup dependencies
+          command: . .circleci/prepare.sh
+      - run:
+          name: Running tests
+          command: . .circleci/run.sh
+  clang:
+    docker:
+      - image: teeks99/clang-ubuntu:8
+        environment:
+          COMPILER: clang++-8
+          REPLICATION: 8
+    steps:
+      - checkout
+      - run:
+          name: Setup dependencies
+          command: . .circleci/prepare.sh
+      - run:
+          name: Running tests
+          command: . .circleci/run.sh
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - gcc
+      - clang

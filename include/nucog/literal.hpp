@@ -11,13 +11,13 @@
 #ifndef NUCOG_LITERAL_HPP_INCLUDED
 #define NUCOG_LITERAL_HPP_INCLUDED
 
+#include <nucog/detail/helpers.hpp>
+#include <nucog/detail/aggregate_bindings.hpp>
+#include <type_traits>
+#include <utility>
 #include <cstdint>
 #include <limits>
 #include <string>
-#include <tuple>
-#include <type_traits>
-#include <utility>
-#include <nucog/detail/helpers.hpp>
 
 namespace nucog::literal
 {
@@ -34,6 +34,13 @@ namespace nucog::literal
   struct symbol_id< std::integer_sequence<std::uint64_t, Size, Hash...> >
   {
     using hash_type = std::integer_sequence<std::uint64_t,Hash...>;
+
+    // Support for type-map interactions
+    template<typename T>
+    constexpr auto operator=(T&& v) const noexcept
+    {
+      return detail::bind<symbol_id>(std::forward<T>(v));
+    }
 
     NUCOG_FORCE_INLINE static constexpr auto id() noexcept { return hash_type{}; }
 

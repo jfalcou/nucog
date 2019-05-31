@@ -24,7 +24,7 @@ namespace nucog::detail
   struct aggregate_bindings : Ts...
   {
     constexpr aggregate_bindings(Ts&&... t) noexcept : Ts( std::forward<Ts>(t))... {}
-    constexpr aggregate_bindings(aggregate_bindings const& other) noexcept =default;
+    constexpr aggregate_bindings(aggregate_bindings const& other) =default;
 
     using Ts::operator()...;
 

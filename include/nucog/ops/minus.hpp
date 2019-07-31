@@ -13,6 +13,7 @@
 
 #include <nucog/detail/supports_overload.hpp>
 #include <nucog/expr/as_expr.hpp>
+#include <nucog/expr/match.hpp>
 #include <nucog/expr/child.hpp>
 #include <nucog/expr/expr.hpp>
 #include <nucog/expr/node.hpp>
@@ -34,9 +35,9 @@ namespace nucog::tags
 
   // Binary - default generator
   template<typename XLHS, typename XRHS>
-  constexpr auto make( minus_ const&, expr<XLHS> const& lhs, expr<XRHS> const& rhs ) noexcept
+  constexpr auto operator-( XLHS&& lhs, XRHS&& rhs ) noexcept
   {
-    return node<tags::minus_,XLHS, XRHS>{lhs.self(), rhs.self()};
+    return make(tags::minus_{}, as_expr(std::forward<XLHS>(lhs)), as_expr(std::forward<XRHS>(rhs)));
   }
 }
 
@@ -48,9 +49,9 @@ namespace nucog
   }
 
   template<typename XLHS, typename XRHS, typename = supports_overload<XLHS,XRHS>>
-  constexpr auto operator-( XLHS const& lhs, XRHS const& rhs ) noexcept
+  constexpr auto operator-( XLHS&& lhs, XRHS&& rhs ) noexcept
   {
-    return make(tags::minus_{}, as_expr(lhs), as_expr(rhs));
+    return make(tags::minus_{}, as_expr(std::forward<XLHS>(lhs)), as_expr(std::forward<XRHS>(rhs)));
   }
 }
 
@@ -58,20 +59,35 @@ namespace nucog
 // Optimization
 namespace nucog::tags
 {
-  template<typename X>
-  constexpr auto make( minus_ const&, expr<X> const&, expr<X> const& ) noexcept
+  template<typename XLHS, typename XRHS>
+  constexpr auto make( minus_ const&, expr<XLHS> const& lhs, expr<XRHS> const& rhs ) noexcept
   {
     using namespace literal;
-    return 0_c;
-  }
 
-  template<std::uint64_t N, std::uint64_t M, typename X>
-  constexpr auto make ( minus_ const&
-                      , expr<node<tags::times_,terminal<literal::idx_<N>>,X>> const& lhs
-                      , expr<node<tags::times_,terminal<literal::idx_<M>>,X>> const&
-                      ) noexcept
-  {
-    return as_expr(literal::idx_<N-M>{}) * child<1>(lhs);
+    if constexpr( XLHS::is_placeholder() || XRHS::is_placeholder() )
+    {
+      return node<tags::minus_,XLHS, XRHS>{lhs.self(), rhs.self()};
+    }
+    else
+    {
+      if      constexpr( NUCOG_MATCH(lhs,rhs) ) return 0_c;
+      else if constexpr( NUCOG_MATCH(lhs,0_c) ) return lhs;
+      else if constexpr( NUCOG_MATCH(lhs,lit_ * expr_) && NUCOG_MATCH(rhs,lit_ * expr_))
+      {
+        if constexpr( NUCOG_MATCH(lhs[1_c],rhs[1_c]) )
+        {
+          using vl = decltype(lhs[0_c].value());
+          using vr = decltype(rhs[0_c].value());
+
+          return idx_<vl::value-vr::value>{} * lhs[1_c];
+        }
+        else
+        {
+          return node<tags::minus_,XLHS, XRHS>{lhs.self(), rhs.self()};
+        }
+      }
+      else return node<tags::minus_,XLHS, XRHS>{lhs.self(), rhs.self()};
+    }
   }
 }
 

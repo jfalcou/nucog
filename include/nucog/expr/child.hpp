@@ -17,9 +17,9 @@
 namespace nucog
 {
   template<std::size_t Index, typename Expression>
-  constexpr decltype(auto) child(Expression&& expr) noexcept
+  constexpr auto child(Expression const& expr) noexcept
   {
-    return std::forward<Expression>(expr).template child<Index>();
+    return expr.template get<Index>();
   }
 }
 

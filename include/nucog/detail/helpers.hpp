@@ -30,6 +30,18 @@
 #define NUCOG_FORCE_INLINE __attribute__((always_inline))
 #endif
 
+namespace nucog
+{
+  template<typename Type> struct type_ {};
+}
+
+#ifdef NUCOG_EXPLICIT_SYMBOL
+#define NUCOG_TYPE(E) ::nucog::type_<std::decay_t<decltype(E)>>{}
+#else
+#define $$(E) ::nucog::type_<std::decay_t<decltype(E)>>{}
+#endif
+
+
 namespace nucog::detail
 {
   // Tuple-free apply

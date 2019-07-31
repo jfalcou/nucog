@@ -8,25 +8,24 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#ifndef NUCOG_SYMBOL_HPP_INCLUDED
-#define NUCOG_SYMBOL_HPP_INCLUDED
+#ifndef NUCOG_EXPR_MATCH_HPP_INCLUDED
+#define NUCOG_EXPR_MATCH_HPP_INCLUDED
 
-#include <nucog/expr/terminal.hpp>
+#include <nucog/detail/helpers.hpp>
 
 namespace nucog
 {
-  namespace naming
+  template<typename T, typename U>
+  constexpr bool match( type_<T>, type_<U> u)
   {
-    using namespace nucog::literal;
-
-    inline constexpr auto x_  = $(x_);
-    inline constexpr auto y_  = $(y_);
-    inline constexpr auto z_  = $(z_);
+    return T::match(u);
   }
-
-  using naming::x_;
-  using naming::y_;
-  using naming::z_;
 }
+
+#ifdef NUCOG_EXPLICIT_SYMBOL
+#define NUCOG_MATCH( EXPR, PATTERN ) ::nucog::match( NUCOG_TYPE(EXPR),NUCOG_TYPE(PATTERN) )
+#else
+#define NUCOG_MATCH( EXPR, PATTERN ) ::nucog::match( $$(EXPR), $$(PATTERN) )
+#endif
 
 #endif

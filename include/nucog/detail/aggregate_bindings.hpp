@@ -23,7 +23,7 @@ namespace nucog::detail
   template<typename... Ts>
   struct aggregate_bindings : Ts...
   {
-    constexpr aggregate_bindings(Ts&&... t) noexcept : Ts( std::forward<Ts>(t))... {}
+    constexpr aggregate_bindings(Ts const&... t) noexcept : Ts(t)... {}
     constexpr aggregate_bindings(aggregate_bindings const& other) =default;
 
     using Ts::operator()...;
@@ -61,7 +61,6 @@ namespace nucog::detail
       return [&v](box<Key> const&) -> decltype(auto) { return v; };
     }
   }
-
 }
 
 #endif

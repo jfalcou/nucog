@@ -6,6 +6,7 @@
 ##  SPDX-License-Identifier: MIT
 ##==================================================================================================
 
-add_subdirectory(api)
-add_subdirectory(visitor)
-add_subdirectory(formula)
+##==================================================================================================
+## Visitor tests
+add_unit_test( "visitor" display.cpp )
+add_unit_test( "visitor" evaluate.cpp )

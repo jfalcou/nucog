@@ -8,14 +8,15 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-
 #include <tts/tts.hpp>
 #include <tts/tests/relation.hpp>
 #include <tts/tests/types.hpp>
 #include <nucog/expr/match.hpp>
 #include <nucog/expr/terminal.hpp>
-#include <nucog/ops/plus.hpp>
 #include <nucog/ops/minus.hpp>
+#include <nucog/ops/plus.hpp>
+#include <nucog/ops/unary_minus.hpp>
+#include <nucog/ops/unary_plus.hpp>
 #include <nucog/symbol.hpp>
 
 TTS_CASE( "Check match for terminal" )
@@ -48,6 +49,7 @@ TTS_CASE( "Check match for unary plus" )
   TTS_EXPECT( std::bool_constant<  NUCOG_MATCH(+x_, nary_expr_<1> ) >::value );
 
   TTS_EXPECT_NOT( std::bool_constant< NUCOG_MATCH(+y_,+x_)            >::value );
+  TTS_EXPECT_NOT( std::bool_constant< NUCOG_MATCH(+x_,x_ + x_)        >::value );
   TTS_EXPECT_NOT( std::bool_constant< NUCOG_MATCH(+x_,binary_expr_  ) >::value );
   TTS_EXPECT_NOT( std::bool_constant< NUCOG_MATCH(+x_,ternary_expr_ ) >::value );
   TTS_EXPECT_NOT( std::bool_constant< NUCOG_MATCH(+x_,nary_expr_<2> ) >::value );
@@ -66,6 +68,7 @@ TTS_CASE( "Check match for unary minus" )
   TTS_EXPECT( std::bool_constant<  NUCOG_MATCH(-x_, nary_expr_<1> ) >::value );
 
   TTS_EXPECT_NOT( std::bool_constant< NUCOG_MATCH(-y_,-x_)            >::value );
+  TTS_EXPECT_NOT( std::bool_constant< NUCOG_MATCH(-x_,x_ + x_)        >::value );
   TTS_EXPECT_NOT( std::bool_constant< NUCOG_MATCH(-x_,binary_expr_  ) >::value );
   TTS_EXPECT_NOT( std::bool_constant< NUCOG_MATCH(-x_,ternary_expr_ ) >::value );
   TTS_EXPECT_NOT( std::bool_constant< NUCOG_MATCH(-x_,nary_expr_<2> ) >::value );
@@ -80,6 +83,7 @@ TTS_CASE( "Check match for binary plus" )
   TTS_EXPECT( std::bool_constant< NUCOG_MATCH(x_ + y_, term_ + term_) >::value );
   TTS_EXPECT( std::bool_constant< NUCOG_MATCH(x_ + x_, 2_c * x_) >::value );
 
+  TTS_EXPECT_NOT( std::bool_constant< NUCOG_MATCH(x_ + x_, + y_)    >::value );
   TTS_EXPECT_NOT( std::bool_constant< NUCOG_MATCH(x_ + x_, x_ + y_) >::value );
   TTS_EXPECT_NOT( std::bool_constant< NUCOG_MATCH(x_ + y_, x_ + x_) >::value );
 }

@@ -10,8 +10,10 @@
 //==================================================================================================
 
 #include <nucog/expr/terminal.hpp>
-#include <nucog/ops/plus.hpp>
 #include <nucog/ops/minus.hpp>
+#include <nucog/ops/plus.hpp>
+#include <nucog/ops/unary_minus.hpp>
+#include <nucog/ops/unary_plus.hpp>
 #include <nucog/symbol.hpp>
 
 #include <tts/tts.hpp>
@@ -24,9 +26,9 @@ TTS_CASE( "Check unary expression properties" )
 
   auto f = -x_;
 
-  TTS_EQUAL( f.arity()           , 1                     );
-  TTS_EQUAL( f.tag()             , nucog::tags::minus_{} );
-  TTS_EQUAL( f[0_c].value(), "x_"_sym              );
+  TTS_EQUAL( f.arity()          , 1  );
+  TTS_EQUAL( f.tag()            , nucog::tags::unary_minus_{} );
+  TTS_EQUAL( f[0_c].value()     , "x_"_sym );
 }
 
 TTS_CASE( "Check binary expression properties" )

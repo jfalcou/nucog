@@ -63,6 +63,12 @@ namespace nucog
     static constexpr bool match(type_t<any_var> ) noexcept { return is_symbol_v<Symbol>;  }
     static constexpr bool match(type_t<any_lit> ) noexcept { return !is_symbol_v<Symbol>; }
 
+    template<typename T>
+    constexpr auto operator=(T&& v) const noexcept
+    {
+      return detail::bind<Symbol>(std::forward<T>(v));
+    }
+
     template<typename OtherSymbol>
     static constexpr bool match(type_t<terminal<OtherSymbol>>) noexcept
     {
@@ -77,6 +83,23 @@ namespace nucog
 
     Symbol value_;
   };
+
+  //================================================================================================
+  // Display support
+  template<typename Stream, typename Value>
+  Stream& display(Stream& os, tags::terminal_ const&, Value const& v)
+  {
+    os << v;
+    return os;
+  }
+
+  //================================================================================================
+  // Evaluate support
+  template<typename Environment, typename Value>
+  constexpr auto evaluate(Environment const& env, tags::terminal_ const&, Value const& v)
+  {
+    return env(v,v);
+  }
 
   //================================================================================================
   // Joker for any term in matcher

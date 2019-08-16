@@ -13,7 +13,9 @@
 
 #include <nucog/literal.hpp>
 #include <nucog/detail/helpers.hpp>
+#include <nucog/detail/type_map.hpp>
 #include <nucog/expr/tag.hpp>
+#include <nucog/visitor/evaluate.hpp>
 #include <cstddef>
 #include <utility>
 
@@ -46,6 +48,12 @@ namespace nucog
     constexpr auto operator[]( literal::idx_<Index> const&) const noexcept
     {
       return self().template get<Index>();
+    }
+
+    template<typename... Params>
+    constexpr auto operator()(Params const&... ps) const
+    {
+      return evaluate( nucog::type_map(ps...), *this );
     }
   };
 

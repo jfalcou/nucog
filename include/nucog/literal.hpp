@@ -86,6 +86,15 @@ namespace nucog::literal
   };
 
   /*
+    Symbol ID display on standard streams
+  */
+  template<typename HashSequence>
+  std::ostream& operator<<( std::ostream& os, symbol_id<HashSequence> const& sym)
+  {
+    return os << sym.str();
+  }
+
+  /*
     Hash a fragment of 8 characters from an arbitrary variadic sequence of characters
     into a 64-bits hash-token
   */

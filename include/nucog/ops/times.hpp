@@ -13,6 +13,7 @@
 
 #include <nucog/detail/supports_overload.hpp>
 #include <nucog/expr/as_expr.hpp>
+#include <nucog/expr/match.hpp>
 #include <nucog/expr/child.hpp>
 #include <nucog/expr/expr.hpp>
 #include <nucog/expr/node.hpp>
@@ -21,22 +22,16 @@
 
 namespace nucog::tags
 {
-  struct times_ : tag<times_> {};
-
-  // Binary *  default generator
-  template<typename XLHS, typename XRHS>
-  constexpr auto make( times_ const&, expr<XLHS> const& lhs, expr<XRHS> const& rhs ) noexcept
-  {
-    return node<tags::times_,XLHS, XRHS>{lhs.self(), rhs.self()};
-  }
+  struct times_ : tag<times_>
+  {};
 }
 
 namespace nucog
 {
   template<typename XLHS, typename XRHS, typename = supports_overload<XLHS,XRHS>>
-  constexpr auto operator*( XLHS const& lhs, XRHS const& rhs ) noexcept
+  constexpr auto operator*( XLHS&& lhs, XRHS&& rhs ) noexcept
   {
-    return make(tags::times_{}, as_expr(lhs), as_expr(rhs));
+    return make(tags::times_{}, as_expr(std::forward<XLHS>(lhs)), as_expr(std::forward<XRHS>(rhs)));
   }
 }
 
@@ -44,34 +39,24 @@ namespace nucog
 // Optimization
 namespace nucog::tags
 {
-
- template<std::uint64_t N, std::uint64_t M, typename X>
-  constexpr auto make ( times_ const&
-                      , expr<terminal<literal::idx_<N>>> const& lhs
-                      , expr<node<tags::times_,terminal<literal::idx_<M>>,X>> const& rhs
-                      ) noexcept
-  {
-    return literal::idx_<N*M>{} * child<1>(rhs);
-  }
-
-  template<typename X>
-  constexpr auto make ( times_ const&
-                      , expr<terminal<literal::idx_<0>>> const& lhs
-                      , expr<X> const& rhs
-                      ) noexcept
+  template<typename XLHS, typename XRHS>
+  constexpr auto make( times_ const&, expr<XLHS> const& lhs, expr<XRHS> const& rhs ) noexcept
   {
     using namespace literal;
-    return 0_c;
-  }
 
-  template<typename X>
-  constexpr auto make ( times_ const&
-                      , expr<terminal<literal::idx_<1>>> const& lhs
-                      , expr<X> const& rhs
-                      ) noexcept
-  {
-    return rhs.self();
+    if constexpr( XLHS::is_placeholder() || XRHS::is_placeholder() )
+    {
+      return node<tags::times_,XLHS, XRHS>{lhs.self(), rhs.self()};
+    }
+    else
+    {
+           if constexpr( NUCOG_MATCH(lhs,0_c) || NUCOG_MATCH(rhs,0_c) ) return 0_c;
+      else if constexpr( NUCOG_MATCH(lhs,1_c) ) return rhs;
+      else if constexpr( NUCOG_MATCH(rhs,1_c) ) return lhs;
+      else return node<tags::times_,XLHS, XRHS>{lhs.self(), rhs.self()};
+    }
   }
 }
+
 
 #endif

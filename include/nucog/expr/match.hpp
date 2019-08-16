@@ -16,7 +16,7 @@
 namespace nucog
 {
   template<typename T, typename U>
-  constexpr bool match( type_<T>, type_<U> u)
+  constexpr bool match( type_t<T>, type_t<U> u)
   {
     return T::match(u);
   }

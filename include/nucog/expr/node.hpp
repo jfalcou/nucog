@@ -50,15 +50,15 @@ namespace nucog
       return child0_;
     }
 
-    static constexpr bool match(type_<any_expr>) noexcept { return true; }
+    static constexpr bool match(type_t<any_expr>) noexcept { return true; }
 
     template<typename OTag, typename OChild>
-    static constexpr bool match(type_<node<OTag, OChild>>) noexcept
+    static constexpr bool match(type_t<node<OTag, OChild>>) noexcept
     {
-      return std::is_same_v<Tag,OTag> && Child::match( type_<OChild>{} );
+      return std::is_same_v<Tag,OTag> && Child::match( type_t<OChild>{} );
     }
 
-    template<typename Other> static constexpr bool match(type_<Other>) noexcept
+    template<typename Other> static constexpr bool match(type_t<Other>) noexcept
     {
       return std::is_same_v<Other,any_node<1>>;
     }
@@ -87,18 +87,18 @@ namespace nucog
       if constexpr( Index == 1) return child1_;
     }
 
-    static constexpr bool match(type_<any_expr>) noexcept { return true; }
+    static constexpr bool match(type_t<any_expr>) noexcept { return true; }
 
-    template<typename Other> static constexpr bool match(type_<Other>) noexcept
+    template<typename Other> static constexpr bool match(type_t<Other>) noexcept
     {
       return std::is_same_v<Other,any_node<2>>;
     }
 
     template<typename OTag, typename OChild0, typename OChild1>
-    static constexpr bool match(type_<node<OTag, OChild0, OChild1>>) noexcept
+    static constexpr bool match(type_t<node<OTag, OChild0, OChild1>>) noexcept
     {
-      return std::is_same_v<Tag,OTag> && Child0::match( type_<OChild0>{} )
-                                      && Child1::match( type_<OChild1>{} );
+      return std::is_same_v<Tag,OTag> && Child0::match( type_t<OChild0>{} )
+                                      && Child1::match( type_t<OChild1>{} );
     }
 
     private:
@@ -135,22 +135,22 @@ namespace nucog
       }
     }
 
-    static constexpr bool match(type_<any_expr>) noexcept
+    static constexpr bool match(type_t<any_expr>) noexcept
     {
       return true;
     }
 
-    template<typename Other> static constexpr bool match(type_<Other>) noexcept
+    template<typename Other> static constexpr bool match(type_t<Other>) noexcept
     {
       return std::is_same_v<Other,any_node<arity()>>;
     }
 
     template<typename OTag, typename... OChildren>
-    static constexpr bool match(type_<node<OTag, OChildren...>>) noexcept
+    static constexpr bool match(type_t<node<OTag, OChildren...>>) noexcept
     {
       return      std::is_same_v<Tag,OTag>
               &&  (sizeof...(Children) == sizeof...(OChildren))
-              &&  ( (Children::match( type_<OChildren>{} ) && ...)  );
+              &&  ( (Children::match( type_t<OChildren>{} ) && ...)  );
     }
 
     private:

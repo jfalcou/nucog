@@ -32,12 +32,12 @@ namespace nucog
 
     constexpr auto value() const noexcept { return self().value(); }
 
-    template<typename Other> static constexpr bool match(type_<expr<Other>>) noexcept
+    template<typename Other> static constexpr bool match(type_t<expr<Other>>) noexcept
     {
-      return Tree::match(type_<Other>{});
+      return Tree::match(type_t<Other>{});
     }
 
-    template<typename Other> static constexpr bool match(type_<Other> t) noexcept
+    template<typename Other> static constexpr bool match(type_t<Other> t) noexcept
     {
       return Tree::match(t);
     }

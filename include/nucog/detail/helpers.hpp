@@ -32,13 +32,13 @@
 
 namespace nucog
 {
-  template<typename Type> struct type_ {};
+  template<typename Type> struct type_t {};
 }
 
 #ifdef NUCOG_EXPLICIT_SYMBOL
-#define NUCOG_TYPE(E) ::nucog::type_<std::decay_t<decltype(E)>>{}
+#define NUCOG_TYPE(E) ::nucog::type_t<std::decay_t<decltype(E)>>{}
 #else
-#define $$(E) ::nucog::type_<std::decay_t<decltype(E)>>{}
+#define $$(E) ::nucog::type_t<std::decay_t<decltype(E)>>{}
 #endif
 
 

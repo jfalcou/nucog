@@ -58,19 +58,19 @@ namespace nucog
       }
     }
 
-    static constexpr bool match(type_<any_expr>) noexcept { return true; }
-    static constexpr bool match(type_<any_term>) noexcept { return true; }
-    static constexpr bool match(type_<any_var> ) noexcept { return is_symbol_v<Symbol>;  }
-    static constexpr bool match(type_<any_lit> ) noexcept { return !is_symbol_v<Symbol>; }
+    static constexpr bool match(type_t<any_expr>) noexcept { return true; }
+    static constexpr bool match(type_t<any_term>) noexcept { return true; }
+    static constexpr bool match(type_t<any_var> ) noexcept { return is_symbol_v<Symbol>;  }
+    static constexpr bool match(type_t<any_lit> ) noexcept { return !is_symbol_v<Symbol>; }
 
     template<typename OtherSymbol>
-    static constexpr bool match(type_<terminal<OtherSymbol>>) noexcept
+    static constexpr bool match(type_t<terminal<OtherSymbol>>) noexcept
     {
       return std::is_same_v<Symbol,OtherSymbol>;
     }
 
     template<typename Other>
-    static constexpr bool match(type_<Other>) noexcept
+    static constexpr bool match(type_t<Other>) noexcept
     {
       return  std::is_same_v<Symbol,Other>;
     }

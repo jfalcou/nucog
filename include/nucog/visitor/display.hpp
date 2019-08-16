@@ -41,7 +41,7 @@ namespace nucog
         return  detail::apply<Expression::arity()>
                 ( [&](auto const&... idx) -> decltype(auto)
                   {
-                    return display( stream_, Expression::tag(), expr[literal::idx_<idx>{}]... );
+                    return display( stream_, Expression::tag(), expr[idx]... );
                   }
                 );
       }

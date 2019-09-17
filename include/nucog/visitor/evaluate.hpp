@@ -21,7 +21,7 @@ namespace nucog
   template<typename Environment>
   struct evaluate_visitor
   {
-    evaluate_visitor(Environment const& e) : env_(e) {}
+    constexpr evaluate_visitor(Environment const& e) : env_(e) {}
 
     template<typename Expression>
     constexpr auto visit(Expression const& expr)

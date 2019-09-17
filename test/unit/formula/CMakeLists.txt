@@ -6,4 +6,7 @@
 ##  SPDX-License-Identifier: MIT
 ##==================================================================================================
 
-add_subdirectory(unit)
+##==================================================================================================
+## Formula tests
+add_unit_test( "formula" renaming.cpp )
+add_unit_test( "formula" partial.cpp )

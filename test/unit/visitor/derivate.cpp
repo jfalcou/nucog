@@ -1,22 +1,19 @@
 //==================================================================================================
 /**
   NuCoG - Numerical Code Generator
-  Copyright 2019 Joel FALCOU
-  Copyright 2019 Vincent REVERDY
+  Copyright 2019-2021 Joel FALCOU
+  Copyright 2019-2021 Vincent REVERDY
 
   Licensed under the MIT License <http://opensource.org/licenses/MIT>.
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
+#include "test.hpp"
 #include <nucog/ops/minus.hpp>
 #include <nucog/ops/plus.hpp>
 #include <nucog/ops/unary_minus.hpp>
 #include <nucog/ops/unary_plus.hpp>
 #include <nucog/symbol.hpp>
-
-#include <tts/tts.hpp>
-#include <tts/tests/relation.hpp>
-#include <tts/tests/precision.hpp>
 
 template<typename Variable>
 struct derivate_visitor
@@ -80,42 +77,42 @@ TTS_CASE( "Check derivation formula for:" )
 {
   using nucog::x_;
 
-  TTS_SUBCASE("dx/dx")
+  std::cout << "dx/dx\n";
   {
     auto d = derivate(x_, x_);
-    TTS_EQUAL(d(x_ = 4), 1);
+    TTS_EQUAL(d(x_ = 4), 1ULL);
   }
 
-  TTS_SUBCASE("dx/dy")
+  std::cout << "dx/dy\n";
   {
     using nucog::y_;
     auto d = derivate(x_, y_);
-    TTS_EQUAL(d(x_ = 4), 0);
+    TTS_EQUAL(d(x_ = 4), 0ULL);
   }
 
-  TTS_SUBCASE("d4/dx")
+  std::cout << "d4/dx\n";
   {
     auto d = derivate(4, x_);
-    TTS_EQUAL(d(x_ = 4), 0);
+    TTS_EQUAL(d(x_ = 4), 0ULL);
   }
 
-  TTS_SUBCASE("d4_c/dx")
+  std::cout << "d4_c/dx\n";
   {
     using namespace nucog::literal;
 
     auto d = derivate(4_c, x_);
-    TTS_EQUAL(d(x_ = 5), 0);
+    TTS_EQUAL(d(x_ = 5), 0ULL);
   }
 
-  TTS_SUBCASE("d(x+x)/dx")
+  std::cout << "d(x+x)/dx\n";
   {
     using namespace nucog::literal;
 
     auto d = derivate(x_ + x_, x_);
-    TTS_EQUAL(d(x_ = 3), 2);
+    TTS_EQUAL(d(x_ = 3), 2ULL);
   }
 
-  TTS_SUBCASE("d(x*x)/dx")
+  std::cout << "d(x*x)/dx\n";
   {
     using namespace nucog::literal;
 
@@ -123,7 +120,7 @@ TTS_CASE( "Check derivation formula for:" )
     TTS_EQUAL(d(x_ = 4.5f), 9.f);
   }
 
-  TTS_SUBCASE("d(x*x*x)/dx2")
+  std::cout << "d(x*x*x)/dx2\n";
   {
     using namespace nucog::literal;
 

@@ -1,23 +1,20 @@
 //==================================================================================================
 /**
   NuCoG - Numerical Code Generator
-  Copyright 2019 Joel FALCOU
-  Copyright 2019 Vincent REVERDY
+  Copyright 2019-2021 Joel FALCOU
+  Copyright 2019-2021 Vincent REVERDY
 
   Licensed under the MIT License <http://opensource.org/licenses/MIT>.
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
+#include "test.hpp"
 #include <nucog/ops/minus.hpp>
 #include <nucog/ops/plus.hpp>
 #include <nucog/ops/unary_minus.hpp>
 #include <nucog/ops/unary_plus.hpp>
 #include <nucog/visitor/evaluate.hpp>
 #include <nucog/symbol.hpp>
-
-#include <tts/tts.hpp>
-#include <tts/tests/relation.hpp>
-#include <tts/tests/types.hpp>
 
 TTS_CASE( "Check evaluate visitor over terminal" )
 {

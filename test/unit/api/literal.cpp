@@ -8,12 +8,9 @@
   SPDX-License-Identifier: MIT
 */
 //==================================================================================================
-
+#include "test.hpp"
 #include <nucog/literal.hpp>
 #include <nucog/detail/type_map.hpp>
-#include <tts/tts.hpp>
-#include <tts/tests/relation.hpp>
-#include <tts/tests/types.hpp>
 #include <string>
 
 TTS_CASE( "Check uniqueness of literal types " )

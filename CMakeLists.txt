@@ -1,6 +1,7 @@
 ##==================================================================================================
 ##  NuCoG - Numerical Code Generator
-##  Copyright 2019 Joel FALCOU
+##  Copyright 2019-2021 Joel FALCOU
+##  Copyright 2019-2021 Vincent REVERDY
 ##
 ##  Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 ##  SPDX-License-Identifier: MIT
@@ -31,28 +32,15 @@ include_directories(
 )
 
 ## =================================================================================================
-## Compute version string and mode
-## =================================================================================================
-include(parse_revision)
-
-## =================================================================================================
 ## Options
 ## =================================================================================================
 option( NUCOG_BUILD_TEST        "Build tests for nucog"         ON  )
 option( NUCOG_BUILD_BENCHMARKS  "Build benchmarks for nucog"    OFF )
-option( NUCOG_BUILD_DOC         "Build documentation for nucog" ON  )
 
 ## =================================================================================================
 ## Install target
 ## =================================================================================================
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/include DESTINATION .)
-
-## =================================================================================================
-## Setup Documentation
-## =================================================================================================
-if( NUCOG_BUILD_DOC )
-  add_subdirectory(doc)
-endif()
 
 ## =================================================================================================
 ## Test and Benchmarks target
@@ -61,8 +49,4 @@ include(CTest)
 
 if( NUCOG_BUILD_TEST )
   include(test)
-endif()
-
-if( NUCOG_BUILD_BENCHMARKS )
-  include(benchmark)
 endif()

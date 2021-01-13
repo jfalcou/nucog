@@ -1,8 +1,8 @@
 //==================================================================================================
 /**
   NuCoG - Numerical Code Generator
-  Copyright 2019 Joel FALCOU
-  Copyright 2019 Vincent REVERDY
+  Copyright 2019-2021 Joel FALCOU
+  Copyright 2019-2021 Vincent REVERDY
 
   Licensed under the MIT License <http://opensource.org/licenses/MIT>.
   SPDX-License-Identifier: MIT
@@ -48,6 +48,20 @@ namespace nucog
     if      constexpr( NUCOG_MATCH(lhs,rhs) ) return 2_c * lhs;
     else if constexpr( NUCOG_MATCH(lhs,0_c) ) return rhs;
     else if constexpr( NUCOG_MATCH(rhs,0_c) ) return lhs;
+    else if constexpr( NUCOG_MATCH(lhs,lit_ * expr_) && NUCOG_MATCH(rhs,lit_ * expr_))
+    {
+      if constexpr( NUCOG_MATCH(lhs[1_c],rhs[1_c]) )
+      {
+        using vl = decltype(lhs[0_c].value());
+        using vr = decltype(rhs[0_c].value());
+
+        return idx_<vl::value+vr::value>{} * lhs[1_c];
+      }
+      else
+      {
+        return node<tags::plus_,XLHS, XRHS>{lhs.self(), rhs.self()};
+      }
+    }
     else if constexpr( NUCOG_MATCH(lhs,lit_ * expr_) && NUCOG_MATCH(rhs,expr_))
     {
       if constexpr( NUCOG_MATCH(lhs[1_c],rhs.self()) )
@@ -66,20 +80,6 @@ namespace nucog
       {
         using vr = decltype(rhs[0_c].value());
         return idx_<1+vr::value>{} * lhs;
-      }
-      else
-      {
-        return node<tags::plus_,XLHS, XRHS>{lhs.self(), rhs.self()};
-      }
-    }
-    else if constexpr( NUCOG_MATCH(lhs,lit_ * expr_) && NUCOG_MATCH(rhs,lit_ * expr_))
-    {
-      if constexpr( NUCOG_MATCH(lhs[1_c],rhs[1_c]) )
-      {
-        using vl = decltype(lhs[0_c].value());
-        using vr = decltype(rhs[0_c].value());
-
-        return idx_<vl::value+vr::value>{} * lhs[1_c];
       }
       else
       {

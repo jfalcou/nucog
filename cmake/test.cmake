@@ -1,12 +1,11 @@
 ##==================================================================================================
 ##  NuCoG - Numerical Code Generator
-##  Copyright 2019 Joel FALCOU
+##  Copyright 2019-2021 Joel FALCOU
+##  Copyright 2019-2021 Vincent REVERDY
 ##
 ##  Licensed under the MIT License <http://opensource.org/licenses/MIT>.
 ##  SPDX-License-Identifier: MIT
 ##==================================================================================================
-
-include(download)
 include(add_parent_target)
 
 ## Basic type roots
@@ -23,7 +22,7 @@ function(add_unit_test root)
   if( MSVC )
     set( options /std:c++latest -W3 -EHsc)
   else()
-    set( options -std=c++17 -Wall -Wno-missing-braces )
+    set( options -std=c++20 -Wall -Wno-missing-braces )
   endif()
 
   foreach(file ${ARGN})
@@ -64,7 +63,6 @@ function(add_unit_test root)
                                   ${PROJECT_SOURCE_DIR}/include
                               )
 
-    target_link_libraries(${test} tts)
     add_dependencies(unit ${test})
 
     add_parent_target(${test})
@@ -83,18 +81,18 @@ function (list_tests root unit)
 endfunction()
 
 ##==================================================================================================
-## Disable testing/doc for tts
-set(TTS_BUILD_TEST OFF CACHE INTERNAL "OFF")
-set(TTS_BUILD_DOC  OFF CACHE INTERNAL "OFF")
+## Setup TTS
+##==================================================================================================
+set(TTS_BUILD_TEST    OFF CACHE INTERNAL "OFF")
+set(TTS_IS_DEPENDENT  ON  CACHE INTERNAL "ON")
 
-download_project( PROJ                tts
-                  GIT_REPOSITORY      https://github.com/jfalcou/tts.git
-                  GIT_TAG             master
-                  "UPDATE_DISCONNECTED 1"
-                  QUIET
-                )
+include(FetchContent)
+FetchContent_Declare( tts
+                      GIT_REPOSITORY https://github.com/jfalcou/tts.git
+                      GIT_TAG main
+                    )
 
-add_subdirectory(${tts_SOURCE_DIR} ${tts_BINARY_DIR})
+FetchContent_MakeAvailable(tts)
 
 ## Setup our tests
 add_custom_target(tests)

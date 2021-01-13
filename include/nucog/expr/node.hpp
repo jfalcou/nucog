@@ -25,9 +25,16 @@ namespace nucog
     static constexpr bool is_placeholder()  noexcept { return true; }
   };
 
+  template<typename Tag> struct tag_node : expr<tag_node<Tag>>
+  {
+    static constexpr bool is_placeholder()  noexcept { return true; }
+  };
+
   inline constexpr any_node<1> const unary_expr_    = {};
   inline constexpr any_node<2> const binary_expr_   = {};
   inline constexpr any_node<3> const ternary_expr_  = {};
+
+  template<typename Tag> inline constexpr tag_node<Tag> const node_ = {};
 
   template<int N>
   inline constexpr any_node<N> const nary_expr_     = {};
@@ -51,6 +58,12 @@ namespace nucog
     }
 
     static constexpr bool match(type_t<any_expr>) noexcept { return true; }
+
+    template<typename OTag>
+    static constexpr bool match(type_t<tag_node<OTag>>) noexcept
+    {
+      return std::is_same_v<Tag,OTag>;
+    }
 
     template<typename OTag, typename OChild>
     static constexpr bool match(type_t<node<OTag, OChild>>) noexcept
@@ -88,6 +101,12 @@ namespace nucog
     }
 
     static constexpr bool match(type_t<any_expr>) noexcept { return true; }
+
+    template<typename OTag>
+    static constexpr bool match(type_t<tag_node<OTag>>) noexcept
+    {
+      return std::is_same_v<Tag,OTag>;
+    }
 
     template<typename Other> static constexpr bool match(type_t<Other>) noexcept
     {
@@ -138,6 +157,12 @@ namespace nucog
     static constexpr bool match(type_t<any_expr>) noexcept
     {
       return true;
+    }
+
+    template<typename OTag>
+    static constexpr bool match(type_t<tag_node<OTag>>) noexcept
+    {
+      return std::is_same_v<Tag,OTag>;
     }
 
     template<typename Other> static constexpr bool match(type_t<Other>) noexcept

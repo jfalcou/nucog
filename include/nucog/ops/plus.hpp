@@ -48,6 +48,30 @@ namespace nucog
     if      constexpr( NUCOG_MATCH(lhs,rhs) ) return 2_c * lhs;
     else if constexpr( NUCOG_MATCH(lhs,0_c) ) return rhs;
     else if constexpr( NUCOG_MATCH(rhs,0_c) ) return lhs;
+    else if constexpr( NUCOG_MATCH(lhs,lit_ * expr_) && NUCOG_MATCH(rhs,expr_))
+    {
+      if constexpr( NUCOG_MATCH(lhs[1_c],rhs.self()) )
+      {
+        using vl = decltype(lhs[0_c].value());
+        return idx_<vl::value+1>{} * rhs;
+      }
+      else
+      {
+        return node<tags::plus_,XLHS, XRHS>{lhs.self(), rhs.self()};
+      }
+    }
+    else if constexpr( NUCOG_MATCH(lhs,expr_) && NUCOG_MATCH(rhs,lit_ * expr_))
+    {
+      if constexpr( NUCOG_MATCH(lhs.self(),rhs[1_c]) )
+      {
+        using vr = decltype(rhs[0_c].value());
+        return idx_<1+vr::value>{} * lhs;
+      }
+      else
+      {
+        return node<tags::plus_,XLHS, XRHS>{lhs.self(), rhs.self()};
+      }
+    }
     else if constexpr( NUCOG_MATCH(lhs,lit_ * expr_) && NUCOG_MATCH(rhs,lit_ * expr_))
     {
       if constexpr( NUCOG_MATCH(lhs[1_c],rhs[1_c]) )

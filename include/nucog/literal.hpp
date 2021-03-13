@@ -12,7 +12,6 @@
 #define NUCOG_LITERAL_HPP_INCLUDED
 
 #include <nucog/detail/helpers.hpp>
-#include <nucog/detail/aggregate_bindings.hpp>
 #include <type_traits>
 #include <utility>
 #include <cstdint>
@@ -23,10 +22,8 @@ namespace nucog::literal
 {
   // -----------------------------------------------------------------------------------------------
   /*
-    Symbol hashing from literal string
-
-    String of arbitrary size are turned into a sequence of 64-bits hash-token that bijectively
-    maps to the characters of the string, allowing us to reconstruct the string later on.
+    String of arbitrary size are turned into a sequence of 64-bits tokens that allow us to
+    reconstruct the string later on.
   */
   template<typename HashSequence> struct symbol_id;
 
@@ -35,41 +32,32 @@ namespace nucog::literal
   {
     using hash_type = std::integer_sequence<std::uint64_t,Hash...>;
 
-    // Support for type-map interactions
-    template<typename T>
-    constexpr auto operator=(T&& v) const noexcept
-    {
-      return detail::bind<symbol_id>(std::forward<T>(v));
-    }
-
     NUCOG_FORCE_INLINE static constexpr auto id() noexcept { return hash_type{}; }
 
-    // Rebuild a dynamic string from the hash-token
+    // Rebuild a dynamic string from the token sequence
     NUCOG_FORCE_INLINE static std::string str()
     {
       char that[Size+1] = {};
 
-      // Variadically iterate over every has-token
-      auto impl = [&, index = 0ULL](auto... Hs) mutable
+      // Variadically iterate over every token
+      [&, index = 0ULL](auto... Hs) mutable
       {
-        // Unroll the processing of each hash-token
+        // Unroll the processing of each token
         auto make = [&](auto H)
         {
           // Extract each char inside a uint64_t and place it in the proper index in
           // the output string
-          detail::apply<8>( [&](auto... I)
-                      {
-                        // We unroll by 8 but we need to protect against out-of-range access
-                        (( that[(index+I)<Size ? index+I : Size] = (H >> (I*8)) & 0xFF ), ...);
-                        index += 8;
-                      }
-                    );
+          [&]<std::size_t... I>(std::index_sequence<I...>)
+          {
+            constexpr auto steps = sizeof...(I);
+            // We unroll by 8 but we need to protect against out-of-range access
+            (( that[(index+I)<Size ? index+I : Size] = (H >> (I*steps)) & 0xFF ), ...);
+            index += steps;
+          }( std::make_index_sequence<sizeof(std::uint64_t)>{});
         };
 
         (make(Hs),...);
-      };
-
-      impl(Hash...);
+      }(Hash...);
 
       return std::string(that, Size);
     }
@@ -95,8 +83,8 @@ namespace nucog::literal
   }
 
   /*
-    Hash a fragment of 8 characters from an arbitrary variadic sequence of characters
-    into a 64-bits hash-token
+    Convert a fragment of 8 characters from an arbitrary variadic sequence of characters
+    into a 64-bits token
   */
   template<std::size_t Start, typename... Ts> constexpr auto hash8(Ts... cs) noexcept
   {
@@ -114,7 +102,7 @@ namespace nucog::literal
   constexpr std::uint64_t hash() noexcept { return 0; }
   /*
     Variadic trampoline that walks through each sequence of 8 characters to compute
-    each 64-bits hash-token
+    each 64-bits token
   */
   template<typename T, T... C, std::size_t... Offsets>
   constexpr auto hash(std::integer_sequence<T, C...>, std::index_sequence<Offsets...>) noexcept

@@ -12,6 +12,7 @@
 #define NUCOG_EXPR_TERMINAL_HPP_INCLUDED
 
 #include <nucog/detail/helpers.hpp>
+#include <nucog/detail/raberu.hpp>
 #include <nucog/expr/is_terminal.hpp>
 #include <nucog/expr/is_symbol.hpp>
 #include <nucog/expr/expr.hpp>
@@ -66,7 +67,7 @@ namespace nucog
     template<typename T>
     constexpr auto operator=(T&& v) const noexcept
     {
-      return detail::bind<Symbol>(std::forward<T>(v));
+      return rbr::keyword<Symbol> = std::forward<T>(v);
     }
 
     template<typename OtherSymbol>
@@ -98,7 +99,15 @@ namespace nucog
   template<typename Environment, typename Value>
   constexpr auto evaluate(Environment const& env, tags::terminal_ const&, Value const& v)
   {
-    return env(v,v);
+    return v;
+  }
+
+  template<typename Environment, typename S>
+  constexpr auto evaluate(Environment const& env, tags::terminal_ const&, literal::symbol_id<S> const& v)
+  {
+    constexpr auto other  = terminal<literal::symbol_id<S>>();
+    constexpr auto kw     = rbr::keyword<literal::symbol_id<S>>;
+    if constexpr( Environment::contains(kw) ) return env[kw]; else  return other;
   }
 
   //================================================================================================

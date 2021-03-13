@@ -10,7 +10,6 @@
 //==================================================================================================
 #include "test.hpp"
 #include <nucog/literal.hpp>
-#include <nucog/detail/type_map.hpp>
 #include <string>
 
 TTS_CASE( "Check uniqueness of literal types " )
@@ -31,23 +30,4 @@ TTS_CASE( "Check uniqueness of literal values " )
 
   TTS_EQUAL    ( s1, s1p );
   TTS_NOT_EQUAL( s1, s2  );
-}
-
-TTS_CASE( "Check symbol interface for named parameters" )
-{
-  using namespace nucog::literal;
-  using namespace std::string_literals;
-
-  auto xx_ = "xx"_sym;
-  auto yy_ = "yy"_sym;
-  auto zz_ = "zz"_sym;
-
-  short       i = 1337;
-  char const  z = 'Z';
-
-  auto t = nucog::type_map(yy_ = "tests"s, xx_ = i, zz_ = z);
-
-  TTS_EQUAL(  t(xx_),  i);
-  TTS_EQUAL(  t(yy_), "tests"s);
-  TTS_EQUAL(  t(zz_), 'Z');
 }

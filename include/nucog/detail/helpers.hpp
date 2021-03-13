@@ -23,7 +23,7 @@
 #define NUCOG_CAT(x, y) NUCOG_CAT_I(x, y)
 #define NUCOG_CAT_I(x, y) x ## y
 
-// Portabel force-inline
+// Portable force-inline
 #ifdef __MSVC__
 #define NUCOG_FORCE_INLINE __forceinline
 #else
@@ -40,25 +40,5 @@ namespace nucog
 #else
 #define $$(E) ::nucog::type_t<std::decay_t<decltype(E)>>{}
 #endif
-
-
-namespace nucog::detail
-{
-  // Tuple-free apply
-  template<typename Func, std::size_t... I>
-  NUCOG_FORCE_INLINE
-  constexpr decltype(auto)apply_impl(Func&& f, std::index_sequence<I...> const&)
-  noexcept(noexcept(std::forward<Func>(f)(std::integral_constant<std::size_t,I>{}...)))
-  {
-    return std::forward<Func>(f)(std::integral_constant<std::size_t,I>{}...);
-  }
-
-  template<std::size_t Count,typename Func>
-  NUCOG_FORCE_INLINE  constexpr decltype(auto) apply(Func&& f)
-  noexcept(noexcept(apply_impl(std::forward<Func>(f), std::make_index_sequence<Count>{})))
-  {
-    return apply_impl(std::forward<Func>(f), std::make_index_sequence<Count>{});
-  }
-}
 
 #endif

@@ -32,12 +32,10 @@ namespace nucog
       }
       else
       {
-        return  detail::apply<Expression::arity()>
-                ( [&](auto const&... idx) -> decltype(auto)
-                  {
-                    return evaluate( env_, Expression::tag(), expr[idx]... );
-                  }
-                );
+        return  [&]<std::size_t... I>( std::index_sequence<I...>) -> decltype(auto)
+                {
+                  return evaluate( env_, Expression::tag(), expr[literal::idx_<I>{}]... );
+                }( std::make_index_sequence<Expression::arity()>{} );
       }
     }
 

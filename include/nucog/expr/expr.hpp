@@ -13,7 +13,7 @@
 
 #include <nucog/literal.hpp>
 #include <nucog/detail/helpers.hpp>
-#include <nucog/detail/type_map.hpp>
+#include <nucog/detail/raberu.hpp>
 #include <nucog/expr/tag.hpp>
 #include <nucog/visitor/evaluate.hpp>
 #include <cstddef>
@@ -53,7 +53,7 @@ namespace nucog
     template<typename... Params>
     constexpr auto operator()(Params const&... ps) const
     {
-      return evaluate( nucog::type_map(ps...), *this );
+      return evaluate( rbr::settings(ps...), *this );
     }
   };
 

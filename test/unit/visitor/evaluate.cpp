@@ -49,13 +49,3 @@ TTS_CASE( "Check evaluate visitor over binary expression" )
   TTS_EQUAL( (x_ - y_)( y_ = 8  , x_ = 50. ), 42. );
   TTS_EQUAL( (y_ - x_)( y_ = 50 , x_ = 8.f ), 42.f);
 }
-
-//  std::cout << ( (y_ - z_) - (x_ + y_) )( y_ = 3, x_ = 8, z_ = 1.2345) << "\n";
-  // auto f = x_ + y_ + z_;
-  // auto g = f(x_ = y_, z_ = y_);
-  // std::cout << g(y_ = 10) << "\n";
-
-  // auto f1 = y_ + 3;
-  // auto f2 = x_ + 1;
-  // auto f12 = f1(y_ = f2);
-  // std::cout << f12(x_ = 6) << "\n";

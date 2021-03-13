@@ -5,9 +5,7 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#ifndef NUCOG_LITERAL_HPP_INCLUDED
-#define NUCOG_LITERAL_HPP_INCLUDED
-
+#pragma once
 #include <nucog/detail/helpers.hpp>
 #include <type_traits>
 #include <utility>
@@ -146,5 +144,3 @@ namespace nucog::literal
     return idx_<chars_to_int<c...>()>{};
   }
 }
-
-#endif

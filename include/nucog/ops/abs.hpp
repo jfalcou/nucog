@@ -5,9 +5,7 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#ifndef NUCOG_OPS_ABS_HPP_INCLUDED
-#define NUCOG_OPS_ABS_HPP_INCLUDED
-
+#pragma once
 #include <nucog/expr/as_expr.hpp>
 #include <nucog/expr/expr.hpp>
 #include <nucog/ops/function.hpp>
@@ -39,5 +37,3 @@ namespace nucog
     return fun(detail::abs_{}, std::forward<XHS>(xhs));
   }
 }
-
-#endif

@@ -5,9 +5,7 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#ifndef NUCOG_EXPR_TERMINAL_HPP_INCLUDED
-#define NUCOG_EXPR_TERMINAL_HPP_INCLUDED
-
+#pragma once
 #include <nucog/detail/helpers.hpp>
 #include <nucog/detail/raberu.hpp>
 #include <nucog/expr/is_terminal.hpp>
@@ -141,6 +139,4 @@ namespace nucog
 #define NUCOG_SYMBOL(...) ::nucog::terminal<std::decay_t<decltype(NUCOG_SYMNAME(__VA_ARGS__))>>{}
 #else
 #define $(...)            ::nucog::terminal<std::decay_t<decltype(NUCOG_SYMNAME(__VA_ARGS__))>>{}
-#endif
-
 #endif

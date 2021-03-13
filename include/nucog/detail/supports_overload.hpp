@@ -5,8 +5,7 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#ifndef NUCOG_DETAILS_SUPPORTS_OVERLOAD_HPP_INCLUDED
-#define NUCOG_DETAILS_SUPPORTS_OVERLOAD_HPP_INCLUDED
+#pragma once
 
 #include <nucog/expr/is_expr.hpp>
 #include <nucog/expr/is_symbol.hpp>
@@ -20,5 +19,3 @@ namespace nucog
                         ||  (is_symbol_v<std::decay_t<Args>> || ...)
                         >;
 }
-
-#endif

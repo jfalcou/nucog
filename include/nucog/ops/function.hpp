@@ -5,9 +5,7 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#ifndef NUCOG_OPS_FUNCTION_HPP_INCLUDED
-#define NUCOG_OPS_FUNCTION_HPP_INCLUDED
-
+#pragma once
 #include <nucog/detail/supports_overload.hpp>
 #include <nucog/expr/expr.hpp>
 #include <nucog/expr/node.hpp>
@@ -15,6 +13,7 @@
 #include <nucog/visitor/display.hpp>
 #include <nucog/visitor/evaluate.hpp>
 #include <iostream>
+
 namespace nucog::tags
 {
   struct function_ : tag<function_> {};
@@ -81,5 +80,3 @@ std::cout << "cs -> " << ev.visit(cs) << "\n";
   }
 
 }
-
-#endif

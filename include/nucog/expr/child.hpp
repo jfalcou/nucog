@@ -5,9 +5,7 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#ifndef NUCOG_EXPR_CHILD_HPP_INCLUDED
-#define NUCOG_EXPR_CHILD_HPP_INCLUDED
-
+#pragma once
 #include <cstddef>
 #include <utility>
 
@@ -19,5 +17,3 @@ namespace nucog
     return expr.template get<Index>();
   }
 }
-
-#endif

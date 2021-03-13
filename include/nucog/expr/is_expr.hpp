@@ -5,9 +5,7 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#ifndef NUCOG_EXPR_IS_EXPR_HPP_INCLUDED
-#define NUCOG_EXPR_IS_EXPR_HPP_INCLUDED
-
+#pragma once
 #include <type_traits>
 
 namespace nucog
@@ -26,5 +24,3 @@ namespace nucog
 
   template<typename T> constexpr inline auto  is_expr_v = is_expr<T>::value;
 }
-
-#endif

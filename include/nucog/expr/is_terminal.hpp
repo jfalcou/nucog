@@ -5,9 +5,7 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#ifndef NUCOG_EXPR_IS_TERMINAL_HPP_INCLUDED
-#define NUCOG_EXPR_IS_TERMINAL_HPP_INCLUDED
-
+#pragma once
 #include <type_traits>
 
 namespace nucog
@@ -24,5 +22,3 @@ namespace nucog
   template<typename T> using is_terminal_t = typename is_terminal<T>::type;
   template<typename T> constexpr inline auto is_terminal_v = is_terminal<T>::value;
 }
-
-#endif

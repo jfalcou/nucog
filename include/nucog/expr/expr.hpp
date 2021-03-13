@@ -5,9 +5,6 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#ifndef NUCOG_EXPR_EXPR_HPP_INCLUDED
-#define NUCOG_EXPR_EXPR_HPP_INCLUDED
-
 #include <nucog/literal.hpp>
 #include <nucog/detail/helpers.hpp>
 #include <nucog/detail/raberu.hpp>
@@ -63,5 +60,3 @@ namespace nucog
 
   inline constexpr any_expr const expr_ = {};
 }
-
-#endif

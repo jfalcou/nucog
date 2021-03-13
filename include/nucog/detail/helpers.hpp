@@ -5,9 +5,7 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#ifndef NUCOG_DETAIL_HELPERS_HPP_INCLUDED
-#define NUCOG_DETAIL_HELPERS_HPP_INCLUDED
-
+#pragma once
 #include <cstddef>
 #include <utility>
 
@@ -36,6 +34,4 @@ namespace nucog
 #define NUCOG_TYPE(E) ::nucog::type_t<std::decay_t<decltype(E)>>{}
 #else
 #define $$(E) ::nucog::type_t<std::decay_t<decltype(E)>>{}
-#endif
-
 #endif

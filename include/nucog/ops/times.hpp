@@ -5,9 +5,7 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#ifndef NUCOG_OPS_TIMES_HPP_INCLUDED
-#define NUCOG_OPS_TIMES_HPP_INCLUDED
-
+#pragma once
 #include <nucog/detail/supports_overload.hpp>
 #include <nucog/expr/as_expr.hpp>
 #include <nucog/expr/match.hpp>
@@ -68,4 +66,3 @@ namespace nucog
     return c0 * c1;
   }
 }
-#endif

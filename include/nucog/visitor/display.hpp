@@ -5,9 +5,7 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#ifndef NUCOG_VISITOR_DISPLAY_HPP_INCLUDED
-#define NUCOG_VISITOR_DISPLAY_HPP_INCLUDED
-
+#pragma once
 #include <nucog/detail/helpers.hpp>
 #include <nucog/literal.hpp>
 
@@ -107,5 +105,3 @@ namespace nucog
     return os;
   }
 }
-
-#endif

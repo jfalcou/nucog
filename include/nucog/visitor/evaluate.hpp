@@ -5,8 +5,7 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#ifndef NUCOG_VISITOR_EVALUATE_HPP_INCLUDED
-#define NUCOG_VISITOR_EVALUATE_HPP_INCLUDED
+#pragma once
 
 namespace nucog::tags
 {
@@ -56,5 +55,3 @@ namespace nucog
     return evaluate(tag, ev.visit(cs)...);
   }
 }
-
-#endif

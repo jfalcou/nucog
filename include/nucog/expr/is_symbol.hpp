@@ -5,9 +5,7 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#ifndef NUCOG_EXPR_IS_SYMBOL_HPP_INCLUDED
-#define NUCOG_EXPR_IS_SYMBOL_HPP_INCLUDED
-
+#pragma once
 #include <type_traits>
 
 namespace nucog::literal
@@ -27,5 +25,3 @@ namespace nucog
   template<typename T> using is_symbol_t = typename is_symbol<T>::type;
   template<typename T> constexpr inline auto is_symbol_v = is_symbol<T>::value;
 }
-
-#endif

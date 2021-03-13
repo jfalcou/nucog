@@ -5,9 +5,7 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#ifndef NUCOG_EXPR_NODE_HPP_INCLUDED
-#define NUCOG_EXPR_NODE_HPP_INCLUDED
-
+#pragma once
 #include <nucog/expr/child.hpp>
 #include <nucog/expr/expr.hpp>
 #include <cstddef>
@@ -179,5 +177,3 @@ namespace nucog
     std::tuple<Children...> children_;
   };
 }
-
-#endif

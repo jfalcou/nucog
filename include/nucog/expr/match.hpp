@@ -5,9 +5,7 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#ifndef NUCOG_EXPR_MATCH_HPP_INCLUDED
-#define NUCOG_EXPR_MATCH_HPP_INCLUDED
-
+#pragma once
 #include <nucog/detail/helpers.hpp>
 
 namespace nucog
@@ -23,6 +21,4 @@ namespace nucog
 #define NUCOG_MATCH( EXPR, PATTERN ) ::nucog::match( NUCOG_TYPE(EXPR),NUCOG_TYPE(PATTERN) )
 #else
 #define NUCOG_MATCH( EXPR, PATTERN ) ::nucog::match( $$(EXPR), $$(PATTERN) )
-#endif
-
 #endif

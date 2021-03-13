@@ -5,9 +5,7 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#ifndef NUCOG_OPS_MAKE_HPP_INCLUDED
-#define NUCOG_OPS_MAKE_HPP_INCLUDED
-
+#pragma once
 #include <nucog/expr/expr.hpp>
 #include <nucog/expr/node.hpp>
 
@@ -31,5 +29,3 @@ namespace nucog
     }
   }
 }
-
-#endif

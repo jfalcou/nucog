@@ -5,9 +5,7 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#ifndef NUCOG_EXPR_TAG_HPP_INCLUDED
-#define NUCOG_EXPR_TAG_HPP_INCLUDED
-
+#pragma once
 #include <type_traits>
 
 namespace nucog
@@ -48,5 +46,3 @@ namespace nucog
 
   using any_tag = tag<void>;
 }
-
-#endif

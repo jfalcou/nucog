@@ -5,9 +5,7 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#ifndef NUCOG_EXPR_AS_EXPR_HPP_INCLUDED
-#define NUCOG_EXPR_AS_EXPR_HPP_INCLUDED
-
+#pragma once
 #include <nucog/detail/helpers.hpp>
 #include <nucog/expr/is_expr.hpp>
 #include <nucog/expr/is_terminal.hpp>
@@ -24,5 +22,3 @@ namespace nucog
     else                                                return terminal<t_t>(std::forward<T>(x));
   }
 }
-
-#endif

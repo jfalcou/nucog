@@ -5,9 +5,7 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#ifndef NUCOG_SYMBOL_HPP_INCLUDED
-#define NUCOG_SYMBOL_HPP_INCLUDED
-
+#pragma once
 #include <nucog/expr/terminal.hpp>
 
 namespace nucog
@@ -25,5 +23,3 @@ namespace nucog
   using naming::y_;
   using naming::z_;
 }
-
-#endif

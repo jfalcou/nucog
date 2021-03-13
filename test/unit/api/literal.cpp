@@ -1,12 +1,9 @@
 //==================================================================================================
-/*
+/**
   NuCoG - Numerical Code Generator
-  Copyright 2019 Joel FALCOU
-  Copyright 2019 Vincent REVERDY
-
-  Licensed under the MIT License <http://opensource.org/licenses/MIT>.
+  Copyright : NuCoG Contributors & Maintainers
   SPDX-License-Identifier: MIT
-*/
+**/
 //==================================================================================================
 #include "test.hpp"
 #include <nucog/literal.hpp>

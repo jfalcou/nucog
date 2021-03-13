@@ -1,19 +1,9 @@
 ##==================================================================================================
 ##  NuCoG - Numerical Code Generator
-##  Copyright 2019-2021 Joel FALCOU
-##  Copyright 2019-2021 Vincent REVERDY
-##
-##  Licensed under the MIT License <http://opensource.org/licenses/MIT>.
+##  Copyright : NuCog Contributors & Maintainers
 ##  SPDX-License-Identifier: MIT
 ##==================================================================================================
 include(add_parent_target)
-
-## Basic type roots
-set(real_types      double float                      )
-set(int_types       int64 int32 int16 int8            )
-set(uint_types      uint64 uint32 uint16 uint8        )
-set(integral_types  "${int_types};${uint_types}"      )
-set(all_types       "${real_types};${integral_types}" )
 
 ##==================================================================================================
 ## Centralize all required setup for unit tests
@@ -67,17 +57,6 @@ function(add_unit_test root)
 
     add_parent_target(${test})
   endforeach()
-endfunction()
-
-##==================================================================================================
-function (list_tests root unit)
-  set(sources )
-
-  foreach(e ${ARGN})
-    list(APPEND sources "${root}/${e}.cpp")
-  endforeach(e)
-
-  add_unit_test( ${unit} "${sources}" )
 endfunction()
 
 ##==================================================================================================

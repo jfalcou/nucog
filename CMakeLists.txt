@@ -1,9 +1,6 @@
 ##==================================================================================================
 ##  NuCoG - Numerical Code Generator
-##  Copyright 2019-2021 Joel FALCOU
-##  Copyright 2019-2021 Vincent REVERDY
-##
-##  Licensed under the MIT License <http://opensource.org/licenses/MIT>.
+##  Copyright : NuCog Contributors & Maintainers
 ##  SPDX-License-Identifier: MIT
 ##==================================================================================================
 cmake_minimum_required(VERSION 3.2)

@@ -6,7 +6,6 @@
 **/
 //==================================================================================================
 #pragma once
-
 #include <nucog/expr/is_expr.hpp>
 #include <nucog/expr/is_symbol.hpp>
 #include <type_traits>

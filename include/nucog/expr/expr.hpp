@@ -5,6 +5,7 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
+#pragma once
 #include <nucog/literal.hpp>
 #include <nucog/detail/helpers.hpp>
 #include <nucog/detail/raberu.hpp>

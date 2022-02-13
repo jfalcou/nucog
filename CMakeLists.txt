@@ -1,49 +1,50 @@
 ##==================================================================================================
-##  NuCoG - Numerical Code Generator
-##  Copyright : NuCog Contributors & Maintainers
+##  NUCOG - Cmpact C++20 Tuple Toolbox
+##  Copyright : NUCOG Contributors & Maintainers
 ##  SPDX-License-Identifier: MIT
 ##==================================================================================================
 cmake_minimum_required(VERSION 3.2)
-## =================================================================================================
+
+##==================================================================================================
 ## Setup project
-## =================================================================================================
+##==================================================================================================
 project(nucog LANGUAGES CXX)
-set(PROJECT_VERSION 1.18.6.0)
-set(PROJECT_DOC_DIR   ${PROJECT_SOURCE_DIR}/doc)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake )
+set(PROJECT_VERSION 0.1.0)
 
-## =================================================================================================
+##==================================================================================================
 ## No in-source build
-## =================================================================================================
+##==================================================================================================
 if (${PROJECT_SOURCE_DIR} STREQUAL ${PROJECT_BINARY_DIR})
-  message( FATAL_ERROR "[nucog] Building in-source, not recommended! Build in a separate directory." )
+  message(FATAL_ERROR "[nucog]: In-source build is not recommend")
 endif()
-
-## =================================================================================================
-## Add include directories
-## =================================================================================================
-include_directories(
-  ${PROJECT_SOURCE_DIR}/include
-  ${PROJECT_SOURCE_DIR}/test
-  ${PROJECT_SOURCE_DIR}/benchmark
-)
-
-## =================================================================================================
-## Options
-## =================================================================================================
-option( NUCOG_BUILD_TEST        "Build tests for nucog"         ON  )
-option( NUCOG_BUILD_BENCHMARKS  "Build benchmarks for nucog"    OFF )
 
 ## =================================================================================================
 ## Install target
 ## =================================================================================================
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/include DESTINATION .)
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/nucog TYPE INCLUDE)
 
 ## =================================================================================================
-## Test and Benchmarks target
+## Exporting target for external use
 ## =================================================================================================
-include(CTest)
+add_library(nucog_lib INTERFACE)
+target_include_directories(nucog_lib INTERFACE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>)
 
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+target_compile_options( nucog_lib INTERFACE -Wno-gnu-string-literal-operator-template)
+endif()
+
+target_compile_features(nucog_lib INTERFACE cxx_std_20)
+add_library(nucog::nucog ALIAS nucog_lib)
+
+##==================================================================================================
+## Options
+##==================================================================================================
+option( NUCOG_BUILD_TEST  "Build tests for nucog" ON )
+
+##==================================================================================================
+## Test target
+##==================================================================================================
 if( NUCOG_BUILD_TEST )
-  include(test)
+  include(CTest)
+  add_subdirectory(${PROJECT_SOURCE_DIR}/test/)
 endif()

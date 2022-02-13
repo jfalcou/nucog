@@ -4,6 +4,6 @@
 ##  SPDX-License-Identifier: MIT
 ##==================================================================================================
 
-add_subdirectory(api)
-add_subdirectory(visitor)
-add_subdirectory(formula)
+# add_subdirectory(api)
+# add_subdirectory(formula)
+# add_subdirectory(visitor)

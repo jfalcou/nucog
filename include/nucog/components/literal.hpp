@@ -6,6 +6,7 @@
 **/
 //==================================================================================================
 #pragma once
+#include <nucog/deps/detail.hpp>
 #include <nucog/deps/raberu.hpp>
 #include <nucog/deps/kumi.hpp>
 #include <ostream>
@@ -27,6 +28,12 @@ namespace nucog
   template<literals::str_ ID> struct symbol
   {
     static constexpr auto id() noexcept { return ID; }
+
+    template<literals::str_ ID2>
+    friend constexpr auto operator==(symbol, symbol<ID2>) noexcept
+    {
+      return ID.data == ID2.data;
+    }
 
     friend std::ostream& operator<<(std::ostream& os, symbol const&)
     {

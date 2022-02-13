@@ -9,6 +9,7 @@
 
 #include <nucog/components/tag.hpp>
 #include <nucog/components/expr.hpp>
+#include <nucog/components/literal.hpp>
 #include <nucog/traits/is_symbol.hpp>
 
 namespace nucog

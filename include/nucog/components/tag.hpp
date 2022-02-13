@@ -24,7 +24,7 @@ namespace nucog
   {
     using tag_type = Tag;
 
-    template<typename Other> constexpr bool operator==(Other const& o) const noexcept
+    template<typename Other> constexpr bool operator==(Other const&) const noexcept
     {
       return std::is_same_v<Other,Tag> || std::is_same_v<Other,any_tag>;
     }

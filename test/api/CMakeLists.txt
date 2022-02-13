@@ -4,9 +4,7 @@
 ##  SPDX-License-Identifier: MIT
 ##==================================================================================================
 
-##==================================================================================================
-## General API tests
-generate_test( "literal.cpp" )
-# generate_test( "api" terminal.cpp )
-# generate_test( "api" expr.cpp )
-# generate_test( "api" match.cpp )
+generate_test( "literal.cpp"  )
+generate_test( "terminal.cpp" )
+# generate_test( "expr.cpp" )
+# generate_test( "match.cpp" )

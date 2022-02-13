@@ -5,8 +5,7 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#define TTS_MAIN
-#include <tts/tts.hpp>
+#include "test.hpp"
 #include <nucog/components/literal.hpp>
 #include <string>
 

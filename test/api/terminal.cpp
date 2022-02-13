@@ -5,8 +5,7 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#define TTS_MAIN
-#include <tts/tts.hpp>
+#include "test.hpp"
 #include <nucog/components/terminal.hpp>
 
 TTS_CASE( "Check terminal properties" )

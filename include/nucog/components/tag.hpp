@@ -24,14 +24,16 @@ namespace nucog
   {
     using tag_type = Tag;
 
-    template<typename Other> constexpr bool operator==(Other const&) const noexcept
+    template<typename Other>
+    friend constexpr bool operator==(tag const&, tag<Other> const&) noexcept
     {
       return std::is_same_v<Other,Tag> || std::is_same_v<Other,any_tag>;
     }
 
-    template<typename Other> constexpr bool operator!=(Other const& o) const noexcept
+    template<typename Other>
+    friend constexpr bool operator!=(tag const& a, tag<Other> const& b) noexcept
     {
-      return !(*this == o);
+      return !(a == b);
     }
   };
 }

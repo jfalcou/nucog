@@ -4,6 +4,9 @@
 ##  SPDX-License-Identifier: MIT
 ##==================================================================================================
 
-# add_subdirectory(api)
-# add_subdirectory(formula)
-# add_subdirectory(visitor)
+##==================================================================================================
+## General API tests
+generate_test( "literal.cpp" )
+# generate_test( "api" terminal.cpp )
+# generate_test( "api" expr.cpp )
+# generate_test( "api" match.cpp )

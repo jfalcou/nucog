@@ -5,7 +5,8 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#include "test.hpp"
+#define TTS_MAIN
+#include <tts/tts.hpp>
 #include <nucog/literal.hpp>
 #include <string>
 
@@ -15,7 +16,7 @@ TTS_CASE( "Check uniqueness of literal types " )
 
   TTS_TYPE_IS   (  decltype("symbol_1"_sym), decltype("symbol_1"_sym) );
   TTS_EXPECT_NOT(( std::is_same_v<decltype("symbol_1"_sym), decltype("alas, symbol_2"_sym)> ));
-}
+};
 
 TTS_CASE( "Check uniqueness of literal values " )
 {
@@ -27,4 +28,4 @@ TTS_CASE( "Check uniqueness of literal values " )
 
   TTS_EQUAL    ( s1, s1p );
   TTS_NOT_EQUAL( s1, s2  );
-}
+};

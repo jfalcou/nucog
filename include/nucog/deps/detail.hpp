@@ -7,6 +7,8 @@
 //==================================================================================================
 #pragma once
 
+#define NUCOG_FWD(...) static_cast<decltype(__VA_ARGS__) &&>(__VA_ARGS__)
+
 #define NUCOG_STR(...)   NUCOG_STR_((__VA_ARGS__))
 #define NUCOG_STR__(...) #__VA_ARGS__
 #define NUCOG_STR_(TXT)  NUCOG_STR__ TXT

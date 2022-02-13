@@ -8,14 +8,15 @@
 #pragma once
 
 #include <nucog/components/tag.hpp>
-
-namespace nucog::tags
-{
-  struct terminal_ : tag<terminal_> {};
-}
+#include <nucog/components/expr.hpp>
+#include <nucog/traits/is_symbol.hpp>
 
 namespace nucog
 {
+  namespace tags
+  {
+    struct terminal_ : tag<terminal_> {};
+  }
 /*
   struct any_term;
   struct any_var;
@@ -60,7 +61,7 @@ namespace nucog
     requires is_symbol_v<Symbol>
     {
       constexpr auto kw = rbr::keyword(Symbol{});
-      return (kw = std::forward<T>(v));
+      return (kw = NUCOG_FWD(v));
     }
 /*
     template<auto OtherSymbol>
@@ -77,4 +78,53 @@ namespace nucog
 */
     Symbol value_;
   };
+
+  //================================================================================================
+  // Evaluate support
+  template<typename Environment, typename Value>
+  constexpr auto evaluate(Environment const& env, tags::terminal_ const&, Value const& v)
+  {
+    return v;
+  }
+
+  template<typename Environment, literals::str_ S>
+  constexpr auto evaluate(Environment const& env, tags::terminal_ const&, symbol<S> const& v)
+  {
+    constexpr auto other  = terminal<symbol<S>>();
+    constexpr auto kw     = rbr::keyword(S);
+    if constexpr( Environment::contains(kw) ) return env[kw]; else  return other;
+  }
+
+  //================================================================================================
+  // Joker for any term in matcher
+  struct any_term : expr<any_term>
+  {
+    static constexpr bool is_placeholder()  noexcept { return true; }
+  };
+
+  inline constexpr any_term const term_ = {};
+
+  //================================================================================================
+  // Joker for any variable in matcher
+  struct any_var : expr<any_var>
+  {
+    static constexpr bool is_placeholder()  noexcept { return true; }
+  };
+
+  inline constexpr any_var const var_ = {};
+
+  //================================================================================================
+  // Joker for any literal in matcher
+  struct any_lit : expr<any_lit>
+  {
+    static constexpr bool is_placeholder()  noexcept { return true; }
+  };
+
+  inline constexpr any_lit const lit_ = {};
 }
+
+#if !defined(NUCOG_EXPLICIT_TERMINAL)
+#define $(...)              ::nucog::terminal<decltype(NUCOG_SYMBOL(__VA_ARGS__))>{}
+#else
+#define NUCOG_TERMINAL(...) ::nucog::terminal<decltype(NUCOG_SYMBOL(__VA_ARGS__))>{}
+#endif

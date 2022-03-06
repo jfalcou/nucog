@@ -45,7 +45,9 @@ namespace nucog
 
 namespace nucog::literals
 {
-  template<str_ ID> constexpr auto operator""_sym() noexcept { return symbol<ID>{}; }
+  template<literals::str_ ID>
+  constexpr auto operator""_sym() noexcept { return symbol<ID>{}; }
 }
 
-#define NUCOG_SYMBOL(...) NUCOG_CAT(NUCOG_STR(__VA_ARGS__),_sym)
+#define NUCOG_SYMBOL_TYPE(...)  nucog::symbol<NUCOG_STR(__VA_ARGS__)>
+#define NUCOG_SYMBOL(...)       NUCOG_SYMBOL_TYPE(__VA_ARGS__){}

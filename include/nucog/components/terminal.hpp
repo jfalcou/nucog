@@ -124,8 +124,9 @@ namespace nucog
   inline constexpr any_lit const lit_ = {};
 }
 
+#define NUCOG_TERMINAL(...) ::nucog::terminal<NUCOG_SYMBOL_TYPE(__VA_ARGS__)>{}
+
 #if !defined(NUCOG_EXPLICIT_TERMINAL)
-#define $(...)              ::nucog::terminal<decltype(NUCOG_SYMBOL(__VA_ARGS__))>{}
-#else
-#define NUCOG_TERMINAL(...) ::nucog::terminal<decltype(NUCOG_SYMBOL(__VA_ARGS__))>{}
+#define $(...)              NUCOG_TERMINAL(__VA_ARGS__)
 #endif
+

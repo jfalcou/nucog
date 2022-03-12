@@ -7,12 +7,13 @@
 //==================================================================================================
 #pragma once
 #include <nucog/components/literal.hpp>
+#include <nucog/components/terminal.hpp>
 
 namespace nucog
 {
   namespace naming
   {
-    using namespace nucog::literals;
+    using namespace nucog::literal;
 
     inline constexpr auto x_  = $(x_);
     inline constexpr auto y_  = $(y_);

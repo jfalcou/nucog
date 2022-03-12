@@ -21,8 +21,3 @@
 #else
 #define NUCOG_FORCE_INLINE __attribute__((always_inline))
 #endif
-
-namespace nucog
-{
-  template<typename T> struct type_t { using type = T; };
-}

@@ -23,17 +23,10 @@ namespace nucog
 
     constexpr auto value() const noexcept { return self().value(); }
 
-/*
-    template<typename Other> static constexpr bool match(type_t<expr<Other>>) noexcept
-    {
-      return Tree::match(type_t<Other>{});
-    }
-
-    template<typename Other> static constexpr bool match(type_t<Other> t) noexcept
+    template<typename Other> static constexpr bool match(Other t) noexcept
     {
       return Tree::match(t);
     }
-*/
 
     template<std::size_t Index>
     constexpr auto operator[]( index_t<Index> const&) const noexcept
@@ -46,6 +39,8 @@ namespace nucog
     {
       return evaluate( rbr::settings(ps...), *this );
     }
+
+    friend std::ostream& operator<<(std::ostream& os, expr const& e) { return os << e.self(); }
   };
 
   //================================================================================================

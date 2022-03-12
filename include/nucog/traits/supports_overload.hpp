@@ -12,6 +12,6 @@
 
 namespace nucog
 {
-  template<typename Arg>
-  concept supports_overload = is_expr_v<std::decay_t<Arg>> || is_symbol_v<std::decay_t<Arg>>;
+  template<typename... Arg>
+  concept support_overload = ((is_expr_v<std::decay_t<Arg>> || is_symbol_v<std::decay_t<Arg>>) || ...);
 }

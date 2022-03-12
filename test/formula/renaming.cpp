@@ -14,7 +14,7 @@
 
 TTS_CASE( "Check renaming variable in expression" )
 {
-  using namespace std::literals;
+  using namespace std::literal;
   using namespace nucog::literal;
   using nucog::x_;
   using nucog::y_;

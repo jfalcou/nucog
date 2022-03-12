@@ -12,11 +12,11 @@
 namespace nucog
 {
   template<typename T>  struct is_symbol                                  : std::false_type {};
-  template<literals::str_ Symbol> struct is_symbol<symbol<Symbol>       > : std::true_type  {};
-  template<literals::str_ Symbol> struct is_symbol<symbol<Symbol> const > : std::true_type  {};
-  template<literals::str_ Symbol> struct is_symbol<symbol<Symbol> const&> : std::true_type  {};
-  template<literals::str_ Symbol> struct is_symbol<symbol<Symbol> &     > : std::true_type  {};
-  template<literals::str_ Symbol> struct is_symbol<symbol<Symbol> &&    > : std::true_type  {};
+  template<literal::str_ Symbol> struct is_symbol<symbol<Symbol>       > : std::true_type  {};
+  template<literal::str_ Symbol> struct is_symbol<symbol<Symbol> const > : std::true_type  {};
+  template<literal::str_ Symbol> struct is_symbol<symbol<Symbol> const&> : std::true_type  {};
+  template<literal::str_ Symbol> struct is_symbol<symbol<Symbol> &     > : std::true_type  {};
+  template<literal::str_ Symbol> struct is_symbol<symbol<Symbol> &&    > : std::true_type  {};
 
   template<typename T> using is_symbol_t = typename is_symbol<T>::type;
 

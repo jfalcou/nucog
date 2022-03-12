@@ -7,6 +7,7 @@
 //==================================================================================================
 #pragma once
 
+#include <type_traits>
 namespace nucog
 {
   template<typename Tag> struct tag;

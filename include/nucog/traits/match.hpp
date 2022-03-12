@@ -5,16 +5,14 @@
   SPDX-License-Identifier: MIT
 **/
 //==================================================================================================
-#include "test.hpp"
-#include <nucog/components/terminal.hpp>
+#pragma once
 
-TTS_CASE( "Check terminal properties" )
+namespace nucog
 {
-  using namespace nucog::literal;
-
-  auto s1  = $(x_);
-
-  TTS_EQUAL( s1.arity(), 0                        );
-  TTS_EQUAL( s1.tag()  , nucog::tags::terminal_{} );
-  TTS_EQUAL( s1.value(), "x_"_sym                 );
-};
+  template<typename E1, typename E2>
+  constexpr bool match(E1 const&, E2 const&) noexcept
+  {
+    if constexpr(E1::is_placeholder())  return E2::match(E1{});
+    else                                return E1::match(E2{});
+  }
+}

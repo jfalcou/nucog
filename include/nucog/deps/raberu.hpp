@@ -94,8 +94,8 @@ namespace rbr::detail
 
 namespace rbr
 {
-  // ID user defined literals
-  namespace literals
+  // ID user defined literal
+  namespace literal
   {
     template<std::size_t N> struct str_
     {
@@ -109,7 +109,7 @@ namespace rbr
     template<std::size_t N> str_(const char (&str)[N]) -> str_<N>;
   }
 
-  template<literals::str_ ID> struct id_
+  template<literal::str_ ID> struct id_
   {
     friend std::ostream& operator<<(std::ostream& os, id_ const&)
     {
@@ -118,7 +118,7 @@ namespace rbr
     }
   };
 
-  namespace literals
+  namespace literal
   {
     template<str_ ID> constexpr auto operator""_id() noexcept { return id_<ID>{}; }
   }
@@ -319,8 +319,8 @@ namespace rbr
   template<typename Type, typename Tag>
   constexpr typed_keyword<Tag, Type> keyword(Tag) noexcept { return {}; }
 
-  // Keyword/Flag-type user defined literals
-  namespace literals
+  // Keyword/Flag-type user defined literal
+  namespace literal
   {
     template<str_ ID>
     constexpr auto operator""_kw() noexcept { return any_keyword<id_<ID>>{}; }

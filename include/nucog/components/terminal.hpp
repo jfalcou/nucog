@@ -18,11 +18,11 @@ namespace nucog
   {
     struct terminal_ : tag<terminal_> {};
   }
-/*
+
   struct any_term;
   struct any_var;
   struct any_lit;
-*/
+
   template<typename Symbol> struct terminal : expr<terminal<Symbol>>
   {
     static constexpr int             arity() noexcept { return 0;  }
@@ -30,6 +30,9 @@ namespace nucog
     static constexpr bool is_placeholder()   noexcept { return false; }
 
     constexpr terminal() noexcept = default;
+    constexpr terminal(Symbol&) =delete;
+    constexpr terminal(Symbol const& s) noexcept : value_(s) {}
+    constexpr terminal(Symbol&&      s) noexcept : value_(std::move(s)) {}
 
     constexpr auto value() const noexcept { return value_; }
 
@@ -43,19 +46,15 @@ namespace nucog
       }
     }
 
-    template<typename Stream>
-    friend Stream& operator<<(Stream& os, terminal const& v)
-    requires requires(Stream& s, Symbol const& v) { s << v; }
+    friend std::ostream& operator<<(std::ostream& os, terminal const& v)
     {
       return os << v.value_;
     }
 
-/*
-    static constexpr bool match(type_t<any_expr>) noexcept { return true; }
-    static constexpr bool match(type_t<any_term>) noexcept { return true; }
-    static constexpr bool match(type_t<any_var> ) noexcept { return is_symbol_v<Symbol>;  }
-    static constexpr bool match(type_t<any_lit> ) noexcept { return !is_symbol_v<Symbol>; }
-*/
+    static constexpr bool match( any_expr const& ) noexcept { return true; }
+    static constexpr bool match( any_term const& ) noexcept { return true; }
+    static constexpr bool match( any_var  const& ) noexcept { return is_symbol_v<Symbol>;  }
+    static constexpr bool match( any_lit  const& ) noexcept { return !is_symbol_v<Symbol>; }
 
     template<typename T>
     constexpr auto operator=(T&& v) const noexcept
@@ -64,19 +63,19 @@ namespace nucog
       constexpr auto kw = rbr::keyword(Symbol{});
       return (kw = NUCOG_FWD(v));
     }
-/*
-    template<auto OtherSymbol>
-    static constexpr bool match(type_t<terminal<OtherSymbol>>) noexcept
+
+    template<typename OtherSymbol>
+    static constexpr bool match(terminal<OtherSymbol> const&) noexcept
     {
-      return Symbol == OtherSymbol;
+      return std::is_same_v<Symbol,OtherSymbol>;
     }
 
     template<typename Other>
-    static constexpr bool match(type_t<Other>) noexcept
+    static constexpr bool match(Other const&) noexcept
     {
-      return Symbol == Other{};
+      return  std::is_same_v<Symbol,Other>;
     }
-*/
+
     Symbol value_;
   };
 
@@ -88,12 +87,17 @@ namespace nucog
     return v;
   }
 
-  template<typename Environment, literals::str_ S>
+  template<typename Environment, literal::str_ S>
   constexpr auto evaluate(Environment const& env, tags::terminal_ const&, symbol<S> const&)
   {
     constexpr auto other  = terminal<symbol<S>>();
     constexpr auto kw     = rbr::keyword(S);
     if constexpr( Environment::contains(kw) ) return env[kw]; else  return other;
+  }
+
+  constexpr auto& display(std::ostream& os, tags::terminal_ const&, auto const& v)
+  {
+    return os << v.value;
   }
 
   //================================================================================================

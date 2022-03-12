@@ -7,4 +7,4 @@
 generate_test( "literal.cpp"  )
 generate_test( "terminal.cpp" )
 # generate_test( "expr.cpp" )
-# generate_test( "match.cpp" )
+generate_test( "match.cpp" )

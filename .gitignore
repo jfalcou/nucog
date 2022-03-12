@@ -34,4 +34,5 @@
 
 # Potential local build repository
 build/
-.vscode/*q
+.vscode/*
+compile_commands.json

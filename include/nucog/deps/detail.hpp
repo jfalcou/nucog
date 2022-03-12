@@ -16,8 +16,10 @@
 #define NUCOG_CAT(x, y)   NUCOG_CAT_I(x, y)
 #define NUCOG_CAT_I(x, y) x ## y
 
-#ifdef __MSVC__
-#define NUCOG_FORCE_INLINE __forceinline
+#if defined(_MSC_VER)
+#  define NUCOG_FORCEINLINE __forceinline
+#elif defined(__GNUC__)
+#  define NUCOG_FORCEINLINE inline __attribute__((__always_inline__))
 #else
-#define NUCOG_FORCE_INLINE __attribute__((always_inline))
+#  define NUCOG_FORCEINLINE inline
 #endif

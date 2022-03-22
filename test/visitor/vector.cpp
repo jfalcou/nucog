@@ -47,7 +47,8 @@ struct vector_evaluator
   template<typename... Opts, typename Expression>
   constexpr auto accept(rbr::settings<Opts...> const& env, Expression const& expr) const
   {
-    auto sz = std::max({ size(env[typename Opts::keyword_type{}])...  });
+    std::size_t sz = 1;
+    ((sz = std::max(sz, size(env[typename Opts::keyword_type{}]))),...);
     using out_t = std::common_type_t<typename value_type<typename Opts::stored_value_type>::type...>;
 
     assert(   (is_valid(env[typename Opts::keyword_type{}], sz) && ...)

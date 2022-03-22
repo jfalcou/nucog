@@ -6,7 +6,7 @@
 **/
 //==================================================================================================
 #pragma once
-#include <nucog/traits/supports_overload.hpp>
+#include <nucog/traits/support_overload.hpp>
 #include <nucog/components/as_expr.hpp>
 #include <nucog/components/expr.hpp>
 #include <nucog/components/node.hpp>

@@ -21,8 +21,8 @@ namespace nucog
     static constexpr auto tag()             noexcept { return Tree::tag();   }
     static constexpr bool is_placeholder()  noexcept { return Tree::is_placeholder(); }
 
-    constexpr auto const& value()    const noexcept { return self().value(); }
-    constexpr auto const& children() const noexcept { return self().children(); }
+    constexpr auto value()    const noexcept { return self().value(); }
+    constexpr auto children() const noexcept { return self().children(); }
 
     template<typename Other> static constexpr bool match(Other t) noexcept
     {

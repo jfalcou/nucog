@@ -39,11 +39,14 @@ namespace nucog
     template<rbr::concepts::option... Params>
     constexpr auto operator()(Params const&... ps) const
     {
-      auto env = rbr::settings(ps...);
-      using evaluator_t = typename default_evaluator< decltype(env)
-                                                    , typename Params::stored_value_type...
-                                                    >::type;
-      return evaluator_t{env}.visit( *this );
+      using evaluator_t = typename default_evaluator<typename Params::stored_value_type...>::type;
+      return evaluator_t{}.accept( rbr::settings(ps...), *this );
+    }
+
+    template<expr_evaluator Context, rbr::concepts::option... Params>
+    constexpr auto operator()(Context const& ctx, Params const&... ps) const
+    {
+      return ctx.accept( rbr::settings(ps...), *this );
     }
 
     friend std::ostream& operator<<(std::ostream& os, expr const& e) { return os << e.self(); }

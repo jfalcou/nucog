@@ -11,28 +11,30 @@
 
 namespace nucog
 {
-  template<typename Environment>
   struct evaluator
   {
-    evaluator(Environment const& e) : env_(e) {}
+    using nucog_evaluator = void;
 
-    template<typename Expression> constexpr auto visit(Expression const& expr) const
+    template<typename Environment, typename Expression>
+    constexpr auto accept(Environment const& env, Expression const& expr) const
+    {
+      return visit(env, expr);
+    }
+
+    template<typename Environment, typename Expression>
+    constexpr auto visit(Environment const& env, Expression const& expr) const
     {
       constexpr auto tag = Expression::tag();
       if constexpr(Expression::arity() == 0)
       {
-        return evaluate(env_,tag, expr.value());
+        return evaluate(env, tag, expr.value());
       }
       else
       {
-        return  kumi::apply ( [&](auto const&... cs) { return evaluate(tag, visit(cs)...); }
+        return  kumi::apply ( [&](auto const&... cs) { return evaluate(tag, visit(env, cs)...); }
                             , expr.children()
                             );
       }
     }
-
-    constexpr Environment const& env() { return env_; }
-
-    Environment const& env_;
   };
 }

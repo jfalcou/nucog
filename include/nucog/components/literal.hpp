@@ -32,13 +32,17 @@ namespace nucog
     template<literal::str_ ID2>
     friend constexpr auto operator==(symbol, symbol<ID2>) noexcept
     {
-      return ID.data == ID2.data;
+      if(ID.size() != ID2.size()) return false;
+
+      for(std::size_t i=0;i<ID.size();++i)
+        if(ID.data[i] != ID2.data[i]) return true;
+
+      return true;
     }
 
     friend std::ostream& operator<<(std::ostream& os, symbol const&)
     {
-      for(auto e : ID.data) os << e;
-      return os;
+      return os << ID.value();
     }
   };
 }

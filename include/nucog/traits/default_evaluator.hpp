@@ -10,8 +10,14 @@
 
 namespace nucog
 {
-  template<typename Env, typename... T> struct default_evaluator
+  template<typename... T> struct default_evaluator
   {
-    using type = evaluator<Env>;
+    using type = evaluator;
+  };
+
+  template<typename T>
+  concept expr_evaluator = requires(T const&)
+  {
+    typename T::nucog_evaluator;
   };
 }

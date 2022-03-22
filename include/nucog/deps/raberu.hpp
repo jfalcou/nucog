@@ -9,8 +9,10 @@
 #include <ostream>
 #include <array>
 #include <string_view>
+#include <string>
 #include <type_traits>
 #include <utility>
+#include <cstring>
 
 #define RBR_FWD(...) static_cast<decltype(__VA_ARGS__) &&>(__VA_ARGS__)
 
@@ -99,11 +101,14 @@ namespace rbr
   {
     template<std::size_t N> struct str_
     {
-      std::array<char,N-1> data;
+      std::array<char,N> data;
 
       template <std::size_t... Is>
       constexpr str_(const char (&str)[N], std::index_sequence<Is...>) :data{str[Is]...} {}
-      constexpr str_(const char (&str)[N]) : str_{str, std::make_index_sequence<N-1>{}} {}
+      constexpr str_(const char (&str)[N]) : str_{str, std::make_index_sequence<N>{}} {}
+
+                        std::string value() const { return std::string(&data[0],strlen(&data[0])); }
+      static constexpr  auto        size()        { return N; }
     };
 
     template<std::size_t N> str_(const char (&str)[N]) -> str_<N>;
@@ -111,10 +116,9 @@ namespace rbr
 
   template<literal::str_ ID> struct id_
   {
-    friend std::ostream& operator<<(std::ostream& os, id_ const&)
+    friend std::ostream& operator<<(std::ostream& os, id_ const& id)
     {
-      os << '\''; for(auto e : ID.data) os << e;
-      return os << '\'';
+      return os << '\'' << id.value() << '\'';
     }
   };
 

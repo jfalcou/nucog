@@ -23,28 +23,20 @@ namespace nucog
       }
       else
       {
-        return  kumi::apply ( [&](auto const&... cs) { return evaluate(tag, visit(cs)...); }
+        return  kumi::apply ( [&](auto const&... cs) { return visit(tag, visit(cs)...); }
                             , expr.children()
                             );
       }
+    }
+
+    template<typename Tag, typename... Cs>
+    constexpr auto visit(Tag const& tag, Cs const&... cs)
+    {
+      return evaluate(env_, tag, visit(cs)...);
     }
 
     constexpr Environment const& env() { return env_; }
 
     Environment const& env_;
   };
-
-  template<typename Environment, typename Expression>
-  constexpr auto evaluate(Environment const& env, Expression const& expr)
-  {
-    evaluator<Environment> v{env};
-    return v.visit(expr);
-  }
-
-  template<typename Environment, typename Tag, typename... Cs>
-  constexpr auto evaluate(Environment const& env, Tag const& tag, Cs const&... cs)
-  {
-    evaluator<Environment> ev{env};
-    return evaluate(tag, ev.visit(cs)...);
-  }
 }

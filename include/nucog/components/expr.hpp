@@ -7,9 +7,15 @@
 //==================================================================================================
 #pragma once
 #include <nucog/components/literal.hpp>
+#include <nucog/traits/evaluate.hpp>
 
 namespace nucog
 {
+  template<typename Env, typename... T> struct default_evaluator
+  {
+    using type = evaluator<Env>;
+  };
+
   //================================================================================================
   // Expression wrapper
   template<typename Tree> struct expr
@@ -38,7 +44,11 @@ namespace nucog
     template<rbr::concepts::option... Params>
     constexpr auto operator()(Params const&... ps) const
     {
-      return evaluate( rbr::settings(ps...), *this );
+      auto env = rbr::settings(ps...);
+      using evaluator_t = typename default_evaluator< decltype(env)
+                                                    , typename Params::stored_value_type...
+                                                    >::type;
+      return evaluator_t{env}.visit( *this );
     }
 
     friend std::ostream& operator<<(std::ostream& os, expr const& e) { return os << e.self(); }

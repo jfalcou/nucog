@@ -4,7 +4,5 @@
 ##  SPDX-License-Identifier: MIT
 ##==================================================================================================
 
-##==================================================================================================
-## Formula tests
-add_unit_test( "formula" renaming.cpp )
-add_unit_test( "formula" partial.cpp )
+generate_test( "partial.cpp"  )
+generate_test( "renaming.cpp" )

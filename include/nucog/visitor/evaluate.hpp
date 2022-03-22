@@ -16,16 +16,14 @@ namespace nucog
 
     template<typename Expression> constexpr auto visit(Expression const& expr) const
     {
+      constexpr auto tag = Expression::tag();
       if constexpr(Expression::arity() == 0)
       {
-        return evaluate(env_,Expression::tag(), expr.value());
+        return evaluate(env_,tag, expr.value());
       }
       else
       {
-        return  kumi::apply ( [&](auto const&... cs)
-                              {
-                                return evaluate(Expression::tag(), visit(cs)...);
-                              }
+        return  kumi::apply ( [&](auto const&... cs) { return evaluate(tag, visit(cs)...); }
                             , expr.children()
                             );
       }

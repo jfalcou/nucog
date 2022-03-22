@@ -6,15 +6,11 @@
 **/
 //==================================================================================================
 #include "test.hpp"
-#include <nucog/visitor/display.hpp>
-#include <nucog/visitor/evaluate.hpp>
-#include <nucog/ops/plus.hpp>
-#include <nucog/ops/times.hpp>
-#include <nucog/symbol.hpp>
+#include <nucog/nucog.hpp>
 
 TTS_CASE( "Check renaming variable in expression" )
 {
-  using namespace std::literal;
+  using namespace std::literals;
   using namespace nucog::literal;
   using nucog::x_;
   using nucog::y_;
@@ -24,13 +20,15 @@ TTS_CASE( "Check renaming variable in expression" )
   auto g = f( x_ = y_ );
 
   std::ostringstream r;
-  auto e = display(r, g).str();
-  TTS_EQUAL(e, "(1 + (y_ * y_))");
+  r << g;
+  auto e = r.str();
+  TTS_EQUAL(e, "(1 + (y_ * y_))"s);
 
   auto h = z_ + x_*y_;
   auto hh = h(z_ = x_)( x_ = y_ );
 
   std::ostringstream s;
-  auto ee = display(s, hh).str();
-  TTS_EQUAL(ee, "(y_ + (y_ * y_))");
-}
+  s << hh;
+  auto ee = s.str();
+  TTS_EQUAL(ee, "(y_ + (y_ * y_))"s);
+};

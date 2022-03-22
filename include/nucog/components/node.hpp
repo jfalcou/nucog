@@ -38,7 +38,7 @@ namespace nucog
     constexpr node() {}
     constexpr node(Tag const&, Children const&... cs) : children_{cs...} {}
 
-    static constexpr int  arity()           noexcept { return sizeof...(Children);  }
+    static constexpr auto arity()           noexcept { return sizeof...(Children);  }
     static constexpr Tag  tag()             noexcept { return {}; }
     static constexpr bool is_placeholder()  noexcept { return false; }
 

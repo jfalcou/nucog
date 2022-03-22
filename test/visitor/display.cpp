@@ -6,74 +6,74 @@
 **/
 //==================================================================================================
 #include "test.hpp"
-#include <nucog/visitor/display.hpp>
-#include <nucog/ops/minus.hpp>
-#include <nucog/ops/plus.hpp>
-#include <nucog/ops/unary_minus.hpp>
-#include <nucog/ops/unary_plus.hpp>
-#include <nucog/symbol.hpp>
+#include <nucog/nucog.hpp>
 #include <sstream>
 
 TTS_CASE( "Check display visitor over terminal" )
-{
-  using namespace std::literal;
+{;
+  using namespace std::literals;
   using namespace nucog::literal;
   using nucog::x_;
 
   std::ostringstream s;
-  auto d = display(s, x_).str();
-  TTS_EQUAL(d, "x_");
+  s <<  x_;
+  auto d = s.str();
+  TTS_EQUAL(d, "x_"s);
 
   std::ostringstream r;
-  auto e = display(r, $(random_variable)).str();
-  TTS_EQUAL(e, "random_variable");
-}
+  r << $(random_variable);
+  auto e = r.str();
+  TTS_EQUAL(e, "random_variable"s);
+};
 
 TTS_CASE( "Check display visitor over unary expression" )
 {
-  using namespace std::literal;
+  using namespace std::literals;
   using namespace nucog::literal;
   using nucog::x_;
   using nucog::y_;
 
   std::ostringstream r0;
-  auto s0 = display(r0, +x_).str();
-  TTS_EQUAL(s0, "+(x_)");
+  r0 << +x_;
+  auto s0 = r0.str();
+  TTS_EQUAL(s0, "+(x_)"s);
 
   std::ostringstream r1;
-  auto s1 = display(r1, +(+x_)).str();
-  TTS_EQUAL(s1, "+(+(x_))");
+  r1 << +(+x_);
+  auto s1 = r1.str();
+  TTS_EQUAL(s1, "+(+(x_))"s);
 
   std::ostringstream r2;
-  auto s2 = display(r2, +(-(+x_)) ).str();
-  TTS_EQUAL(s2, "+(-(+(x_)))");
-}
+  r2 << +(-(+x_));
+  auto s2 = r2.str();
+  TTS_EQUAL(s2, "+(-(+(x_)))"s);
+};
 
 TTS_CASE( "Check display visitor over binary expression" )
 {
-  using namespace std::literal;
+  using namespace std::literals;
   using namespace nucog::literal;
   using nucog::x_;
   using nucog::y_;
   using nucog::z_;
 
   std::ostringstream r0;
-  auto s0 = display(r0, y_ + 3.f).str();
-  TTS_EQUAL(s0, "(y_ + 3)");
+  r0 << y_ + 3.f;
+  auto s0 = r0.str();
+  TTS_EQUAL(s0, "(y_ + 3)"s);
 
   std::ostringstream r1;
-  auto s1 = display(r1, y_ + x_).str();
+  r1 << y_ + x_;
+  auto s1 = r1.str();
   TTS_EQUAL(s1, "(y_ + x_)");
 
   std::ostringstream r2;
-  auto s2 = display(r2, y_ - x_ ).str();
+  r2 << y_ - x_;
+  auto s2 = r2.str();
   TTS_EQUAL(s2, "(y_ - x_)");
 
   std::ostringstream r3;
-  auto s3 = display(r3, x_ + y_ - z_ ).str();
-  TTS_EQUAL(s3, "((x_ + y_) - z_)");
-
-  std::ostringstream r4;
-  auto s4 = display(r4, x_ + x_ ).str();
-  TTS_EQUAL(s4, "(2 * x_)");
-}
+  r3 << x_ + y_ * z_;
+  auto s3 = r3.str();
+  TTS_EQUAL(s3, "(x_ + (y_ * z_))");
+};

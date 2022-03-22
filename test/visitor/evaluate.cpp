@@ -6,12 +6,7 @@
 **/
 //==================================================================================================
 #include "test.hpp"
-#include <nucog/ops/minus.hpp>
-#include <nucog/ops/plus.hpp>
-#include <nucog/ops/unary_minus.hpp>
-#include <nucog/ops/unary_plus.hpp>
-#include <nucog/visitor/evaluate.hpp>
-#include <nucog/symbol.hpp>
+#include <nucog/nucog.hpp>
 
 TTS_CASE( "Check evaluate visitor over terminal" )
 {
@@ -20,7 +15,7 @@ TTS_CASE( "Check evaluate visitor over terminal" )
   auto f = $(var);
   TTS_EQUAL  ( f($(var) = 42.69), 42.69);
   TTS_EXPR_IS( f($(var) = 42.69), double);
-}
+};
 
 TTS_CASE( "Check evaluate visitor over unary expression" )
 {
@@ -31,9 +26,10 @@ TTS_CASE( "Check evaluate visitor over unary expression" )
   auto g = +y_;
 
   TTS_EQUAL( f(x_ = 42.69), -42.69);
-  TTS_EQUAL( g(y_ = 1337) , 1337  );
+  TTS_EQUAL( g(y_ = 1337 ), 1337  );
 }
 
+#if 0
 TTS_CASE( "Check evaluate visitor over binary expression" )
 {
   using nucog::x_;
@@ -46,3 +42,4 @@ TTS_CASE( "Check evaluate visitor over binary expression" )
   TTS_EQUAL( (x_ - y_)( y_ = 8  , x_ = 50. ), 42. );
   TTS_EQUAL( (y_ - x_)( y_ = 50 , x_ = 8.f ), 42.f);
 }
+#endif

@@ -49,8 +49,6 @@ TTS_CASE( "Check match for binary plus" )
 {
   using namespace nucog::literal;
 
-  std::cout << ($(var) + $(cons))*4 - $(uwu)/$(ARA!ARA!) - 6.324f << "\n";
-
   TTS_CONSTEXPR_EXPECT    ( nucog::match($(var) + $(cons) , nucog::term_ + nucog::term_) );
   TTS_CONSTEXPR_EXPECT_NOT( nucog::match($(var) + $(var)  , +$(cons))         );
   TTS_CONSTEXPR_EXPECT_NOT( nucog::match($(var) + $(var)  , $(var) + $(cons)) );

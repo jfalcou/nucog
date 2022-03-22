@@ -99,11 +99,11 @@ namespace rbr
   {
     template<std::size_t N> struct str_
     {
-      std::array<char,N> data;
+      std::array<char,N-1> data;
 
       template <std::size_t... Is>
       constexpr str_(const char (&str)[N], std::index_sequence<Is...>) :data{str[Is]...} {}
-      constexpr str_(const char (&str)[N]) : str_{str, std::make_index_sequence<N>{}} {}
+      constexpr str_(const char (&str)[N]) : str_{str, std::make_index_sequence<N-1>{}} {}
     };
 
     template<std::size_t N> str_(const char (&str)[N]) -> str_<N>;

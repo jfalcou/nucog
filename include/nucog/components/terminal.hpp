@@ -91,7 +91,7 @@ namespace nucog
   constexpr auto evaluate(Environment const& env, tags::terminal_ const&, symbol<S> const&)
   {
     constexpr auto other  = terminal<symbol<S>>();
-    constexpr auto kw     = rbr::keyword(S);
+    constexpr auto kw     = rbr::keyword(symbol<S>{});
     if constexpr( Environment::contains(kw) ) return env[kw]; else  return other;
   }
 

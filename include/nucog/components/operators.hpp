@@ -79,12 +79,12 @@ namespace nucog
   // Display support
   constexpr auto& display(std::ostream& os, tags::unary_plus_ const&, auto a)
   {
-    return os << "+" << a;
+    return os << "+(" << a << ")";
   }
 
   constexpr auto& display(std::ostream& os, tags::unary_minus_ const&, auto a)
   {
-    return os << "-" << a;
+    return os << "-(" << a << ")";
   }
 
   constexpr auto& display(std::ostream& os, tags::plus_ const&, auto a, auto b)

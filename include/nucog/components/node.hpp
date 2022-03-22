@@ -46,7 +46,7 @@ namespace nucog
 
     template<std::size_t Index> constexpr auto get() const noexcept
     {
-      if constexpr(Index < arity()) return get<Index>(children_);
+      if constexpr(Index < arity()) return kumi::get<Index>(children_);
       else
       {
         static_assert(Index < arity(), "Invalid child access");
@@ -77,9 +77,17 @@ namespace nucog
 
     friend std::ostream& operator<<(std::ostream& os, node const& n)
     {
-      os << "(";
-      kumi::apply( [&](auto const&... m) { display(os, Tag{},m...); }, n.children() );
-      return os << ")";
+      if constexpr( node::arity() == 1 )
+      {
+        display(os, Tag{}, n.get<0>() );
+        return os;
+      }
+      else
+      {
+        os << "(";
+        kumi::apply( [&](auto const&... m) { display(os, Tag{},m...); }, n.children() );
+        return os << ")";
+      }
     }
 
     private:

@@ -4,8 +4,6 @@
 ##  SPDX-License-Identifier: MIT
 ##==================================================================================================
 
-##==================================================================================================
-## Visitor tests
-add_unit_test( "visitor" display.cpp )
-add_unit_test( "visitor" evaluate.cpp )
-add_unit_test( "visitor" derivate.cpp )
+generate_test( "display.cpp"  )
+generate_test( "evaluate.cpp" )
+# generate_test( "visitor" derivate.cpp )

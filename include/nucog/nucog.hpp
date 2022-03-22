@@ -14,3 +14,4 @@
 #include <nucog/components/terminal.hpp>
 #include <nucog/components/operators.hpp>
 #include <nucog/traits/match.hpp>
+#include <nucog/visitor/evaluate.hpp>

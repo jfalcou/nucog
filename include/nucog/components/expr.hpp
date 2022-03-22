@@ -7,15 +7,10 @@
 //==================================================================================================
 #pragma once
 #include <nucog/components/literal.hpp>
-#include <nucog/traits/evaluate.hpp>
+#include <nucog/traits/default_evaluator.hpp>
 
 namespace nucog
 {
-  template<typename Env, typename... T> struct default_evaluator
-  {
-    using type = evaluator<Env>;
-  };
-
   //================================================================================================
   // Expression wrapper
   template<typename Tree> struct expr

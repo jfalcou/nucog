@@ -7,6 +7,8 @@
 //==================================================================================================
 #pragma once
 
+#include <nucog/deps/kumi.hpp>
+
 namespace nucog
 {
   template<typename Environment>
@@ -23,16 +25,10 @@ namespace nucog
       }
       else
       {
-        return  kumi::apply ( [&](auto const&... cs) { return visit(tag, visit(cs)...); }
+        return  kumi::apply ( [&](auto const&... cs) { return evaluate(tag, visit(cs)...); }
                             , expr.children()
                             );
       }
-    }
-
-    template<typename Tag, typename... Cs>
-    constexpr auto visit(Tag const& tag, Cs const&... cs)
-    {
-      return evaluate(env_, tag, visit(cs)...);
     }
 
     constexpr Environment const& env() { return env_; }

@@ -16,22 +16,22 @@ namespace nucog
     using nucog_evaluator = void;
 
     template<typename Environment, typename Expression>
-    constexpr auto accept(Environment const& env, Expression const& expr) const
+    NUCOG_FORCEINLINE constexpr auto accept(Environment const& env, Expression const& expr) const
     {
       return visit(env, expr);
     }
 
     template<typename Environment, typename Expression>
-    constexpr auto visit(Environment const& env, Expression const& expr) const
+    NUCOG_FORCEINLINE constexpr auto visit(Environment const& env, Expression const& expr) const
     {
       constexpr auto tag = Expression::tag();
       if constexpr(Expression::arity() == 0)
       {
-        return evaluate(env, tag, expr.value());
+        return eval(env, tag, expr.value());
       }
       else
       {
-        return  kumi::apply ( [&](auto const&... cs) { return evaluate(tag, visit(env, cs)...); }
+        return  kumi::apply ( [&](auto const&... cs) { return eval(tag, visit(env, cs)...); }
                             , expr.children()
                             );
       }

@@ -82,13 +82,13 @@ namespace nucog
   //================================================================================================
   // Evaluate support
   template<typename Environment, typename Value>
-  constexpr auto evaluate(Environment const&, tags::terminal_ const&, Value const& v)
+  constexpr auto eval(Environment const&, tags::terminal_ const&, Value const& v)
   {
     return v;
   }
 
   template<typename Environment, literal::str_ S>
-  constexpr auto evaluate(Environment const& env, tags::terminal_ const&, symbol<S> const&)
+  constexpr auto eval(Environment const& env, tags::terminal_ const&, symbol<S> const&)
   {
     constexpr auto other  = terminal<symbol<S>>();
     constexpr auto kw     = rbr::keyword(symbol<S>{});

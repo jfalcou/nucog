@@ -53,7 +53,7 @@ struct vector_evaluator
   }
 
   //================================================================================================
-  // Is a size equal to 1 (scalar) or the precomputec vector size (n) ?
+  // Is a size equal to 1 (scalar) or the precomputed vector size (n) ?
   template<typename T>
   static constexpr bool is_valid(T const& c, std::size_t n)
   {
@@ -65,19 +65,19 @@ struct vector_evaluator
   template<typename... Opts, typename Expression>
   constexpr auto accept(rbr::settings<Opts...> const& env, Expression const& expr) const
   {
-    //  - Computes the type and size required by the output
+    //  Computes the type and size required by the output
     std::size_t sz = 1;
     ((sz = std::max(sz, size(env[typename Opts::keyword_type{}]))),...);
     using out_t = std::common_type_t<typename value_type<typename Opts::stored_value_type>::type...>;
 
-    //  - Checks all vectors have same size or assert
+    //  Checks all vectors have same size or assert
     assert(   (is_valid(env[typename Opts::keyword_type{}], sz) && ...)
           &&  "Size mismatch in vector parameters"
           );
 
     std::vector<out_t> out(sz);
 
-    // Iterates over all index and "visit"
+    // Iterates over all index and "visit" each of them
     for(std::size_t i = 0;i < sz;++i)
       out[i] = visit(env, expr, i);
 
@@ -91,14 +91,14 @@ struct vector_evaluator
     if constexpr(Expression::arity() == 0)
     {
       // Extract value from the terminals
-      return value(nucog::evaluate(env, tag, expr.value()), i);
+      return value(nucog::eval(env, tag, expr.value()), i);
     }
     else
     {
       // Recursively visit children and use default evaluator
       return  kumi::apply ( [&](auto const&... cs)
                             {
-                              return nucog::evaluate(tag, visit(env, cs, i)...);
+                              return nucog::eval(tag, visit(env, cs, i)...);
                             }
                           , expr.children()
                           );

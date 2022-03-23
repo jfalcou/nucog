@@ -28,52 +28,54 @@ namespace nucog
 {
   // -----------------------------------------------------------------------------------------------
   // Operator injections
-  template<typename Arg> constexpr auto operator+( expr<Arg> const& arg ) noexcept
+  template<typename Arg>
+  NUCOG_FORCEINLINE constexpr auto operator+( expr<Arg> const& arg ) noexcept
   {
     return node{tags::unary_plus_{},arg.self()};
   }
-  template<typename Arg> constexpr auto operator-( expr<Arg> const& arg ) noexcept
+  template<typename Arg>
+  NUCOG_FORCEINLINE constexpr auto operator-( expr<Arg> const& arg ) noexcept
   {
     return node{tags::unary_minus_{},arg.self()};
   }
 
   template<typename LHS, typename RHS>
   requires support_overload<LHS,RHS>
-  constexpr auto operator+( LHS const& lhs, RHS const& rhs ) noexcept
+  NUCOG_FORCEINLINE constexpr auto operator+( LHS const& lhs, RHS const& rhs ) noexcept
   {
     return node{tags::plus_{}, as_expr(lhs), as_expr(rhs)};
   }
 
   template<typename LHS, typename RHS>
   requires support_overload<LHS,RHS>
-  constexpr auto operator-( LHS const& lhs, RHS const& rhs ) noexcept
+  NUCOG_FORCEINLINE constexpr auto operator-( LHS const& lhs, RHS const& rhs ) noexcept
   {
     return node{tags::minus_{}, as_expr(lhs), as_expr(rhs)};
   }
 
   template<typename LHS, typename RHS>
   requires support_overload<LHS,RHS>
-  constexpr auto operator*( LHS const& lhs, RHS const& rhs ) noexcept
+  NUCOG_FORCEINLINE constexpr auto operator*( LHS const& lhs, RHS const& rhs ) noexcept
   {
     return node{tags::multiplies_{},as_expr(lhs), as_expr(rhs)};
   }
 
   template<typename LHS, typename RHS>
   requires support_overload<LHS,RHS>
-  constexpr auto operator/( LHS const& lhs, RHS const& rhs ) noexcept
+  NUCOG_FORCEINLINE constexpr auto operator/( LHS const& lhs, RHS const& rhs ) noexcept
   {
     return node{tags::divides_{},as_expr(lhs), as_expr(rhs)};
   }
 
   // -----------------------------------------------------------------------------------------------
   // Evaluation support
-  constexpr auto evaluate(tags::unary_plus_   const&, auto&& a) { return  a; }
-  constexpr auto evaluate(tags::unary_minus_  const&, auto&& a) { return -a; }
+  NUCOG_FORCEINLINE constexpr auto eval(tags::unary_plus_   const&, auto&& a) { return  a; }
+  NUCOG_FORCEINLINE constexpr auto eval(tags::unary_minus_  const&, auto&& a) { return -a; }
 
-  constexpr auto evaluate(tags::plus_       const&, auto&& a, auto&& b) { return a+b; }
-  constexpr auto evaluate(tags::minus_      const&, auto&& a, auto&& b) { return a-b; }
-  constexpr auto evaluate(tags::multiplies_ const&, auto&& a, auto&& b) { return a*b; }
-  constexpr auto evaluate(tags::divides_    const&, auto&& a, auto&& b) { return a/b; }
+  NUCOG_FORCEINLINE constexpr auto eval(tags::plus_       const&, auto&& a, auto&& b) { return a+b; }
+  NUCOG_FORCEINLINE constexpr auto eval(tags::minus_      const&, auto&& a, auto&& b) { return a-b; }
+  NUCOG_FORCEINLINE constexpr auto eval(tags::multiplies_ const&, auto&& a, auto&& b) { return a*b; }
+  NUCOG_FORCEINLINE constexpr auto eval(tags::divides_    const&, auto&& a, auto&& b) { return a/b; }
 
   // -----------------------------------------------------------------------------------------------
   // Display support

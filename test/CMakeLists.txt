@@ -72,5 +72,4 @@ add_custom_target(unit)
 ##==================================================================================================
 
 add_subdirectory(api)
-add_subdirectory(formula)
 add_subdirectory(visitor)

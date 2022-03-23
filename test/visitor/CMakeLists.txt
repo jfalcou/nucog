@@ -4,5 +4,5 @@
 ##  SPDX-License-Identifier: MIT
 ##==================================================================================================
 
-generate_test( "vector.cpp" )
-# generate_test( "visitor" derivate.cpp )
+generate_test( "vector.cpp"   )
+generate_test( "derivate.cpp" )

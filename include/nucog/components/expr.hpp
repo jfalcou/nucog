@@ -22,8 +22,10 @@ namespace nucog
     static constexpr auto tag()             noexcept { return Tree::tag();   }
     static constexpr bool is_placeholder()  noexcept { return Tree::is_placeholder(); }
 
-    constexpr auto value()    const noexcept { return self().value(); }
-    constexpr auto children() const noexcept { return self().children(); }
+    constexpr auto value()    const noexcept { return self().value();     }
+    constexpr auto children() const noexcept { return self().children();  }
+
+    static constexpr auto tree()     noexcept { return Tree();  }
 
     template<typename Other> static constexpr bool match(Other t) noexcept
     {
@@ -31,7 +33,7 @@ namespace nucog
     }
 
     template<std::size_t Index>
-    constexpr auto operator[]( index_t<Index> const&) const noexcept
+    constexpr decltype(auto) operator[]( index_t<Index> const&) const noexcept
     {
       return self().template get<Index>();
     }

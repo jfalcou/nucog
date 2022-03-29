@@ -16,13 +16,24 @@ TTS_CASE( "Check match for terminal" )
   TTS_CONSTEXPR_EXPECT( nucog::match($(var), nucog::var_  ) );
   TTS_CONSTEXPR_EXPECT( nucog::match($(var), nucog::expr_ ) );
   TTS_CONSTEXPR_EXPECT( nucog::match($(var), nucog::term_ ) );
+  TTS_CONSTEXPR_EXPECT_NOT( nucog::match($(var)           , 0_c )         );
+  TTS_CONSTEXPR_EXPECT_NOT( nucog::match($(var)           , $(other_var) ));
+  TTS_CONSTEXPR_EXPECT_NOT( nucog::match($(var)           , nucog::lit_  ));
 
-  TTS_CONSTEXPR_EXPECT( nucog::match(nucog::as_expr(0_c), 0_c ) );
-  TTS_CONSTEXPR_EXPECT( nucog::match(nucog::as_expr(4)  ,  77 ) );
+  TTS_CONSTEXPR_EXPECT( nucog::match(nucog::as_expr(0_c), 0_c         ) );
+  TTS_CONSTEXPR_EXPECT( nucog::match(nucog::as_expr(0_c), nucog::expr_) );
+  TTS_CONSTEXPR_EXPECT( nucog::match(nucog::as_expr(0_c), nucog::term_) );
+  TTS_CONSTEXPR_EXPECT( nucog::match(nucog::as_expr(0_c), nucog::lit_ ) );
+  TTS_CONSTEXPR_EXPECT_NOT( nucog::match(nucog::as_expr(0_c), nucog::var_ ) );
+  TTS_CONSTEXPR_EXPECT_NOT( nucog::match(nucog::as_expr(4_c),  4. ) );
 
-  TTS_CONSTEXPR_EXPECT_NOT( nucog::match(nucog::as_expr(4),  4. )       );
-  TTS_CONSTEXPR_EXPECT_NOT( nucog::match($(var)        , 0_c )       );
-  TTS_CONSTEXPR_EXPECT_NOT( nucog::match($(var)        , $(other_var) ) );
+  TTS_CONSTEXPR_EXPECT( nucog::match(nucog::as_expr(4),  77         ) );
+  TTS_CONSTEXPR_EXPECT( nucog::match(nucog::as_expr(4), nucog::expr_) );
+  TTS_CONSTEXPR_EXPECT( nucog::match(nucog::as_expr(4), nucog::term_) );
+  TTS_CONSTEXPR_EXPECT( nucog::match(nucog::as_expr(4), nucog::lit_ ) );
+
+  TTS_CONSTEXPR_EXPECT_NOT( nucog::match(nucog::as_expr(4),  4.         ) );
+  TTS_CONSTEXPR_EXPECT_NOT( nucog::match(nucog::as_expr(0), nucog::var_ ) );
 };
 
 TTS_CASE( "Check match for unary node" )

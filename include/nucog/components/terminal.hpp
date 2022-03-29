@@ -36,15 +36,7 @@ namespace nucog
 
     constexpr auto value() const noexcept { return value_; }
 
-    template<std::size_t Index> constexpr auto get() const noexcept
-    {
-      if constexpr(Index == 0) return value_;
-      else
-      {
-        static_assert(Index == 0, "Invalid child access");
-        return *this;
-      }
-    }
+    template<std::size_t Index> constexpr auto get() const noexcept { return *this; }
 
     friend std::ostream& operator<<(std::ostream& os, terminal const& v)
     {
@@ -76,7 +68,7 @@ namespace nucog
       return  std::is_same_v<Symbol,Other>;
     }
 
-    Symbol value_;
+    Symbol value_ = {};
   };
 
   //================================================================================================

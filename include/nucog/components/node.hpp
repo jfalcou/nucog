@@ -45,7 +45,7 @@ namespace nucog
     NUCOG_FORCEINLINE constexpr auto const& children() const noexcept { return children_; }
 
     template<std::size_t Index>
-    NUCOG_FORCEINLINE constexpr auto get() const noexcept
+    NUCOG_FORCEINLINE constexpr decltype(auto) get() const noexcept
     {
       if constexpr(Index < arity()) return kumi::get<Index>(children_);
       else
@@ -92,6 +92,6 @@ namespace nucog
     }
 
     private:
-    kumi::tuple<Children...> children_;
+    kumi::tuple<Children...> children_ = {};
   };
 }

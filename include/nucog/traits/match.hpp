@@ -7,6 +7,9 @@
 //==================================================================================================
 #pragma once
 
+#include <nucog/deps/detail.hpp>
+#include <type_traits>
+
 namespace nucog
 {
   template<typename E1, typename E2>

@@ -118,7 +118,7 @@ struct nucog::default_evaluator<T...>
 
 TTS_CASE( "Check array_evaluate visitor over terminal" )
 {
-  using namespace nucog::literal;
+  using namespace nucog::literals;
 
   auto f = $(v1) + $(v2);
 

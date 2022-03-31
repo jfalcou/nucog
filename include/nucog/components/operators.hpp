@@ -53,7 +53,7 @@ namespace nucog
     // Apply safe simplification
     auto build = []<typename L, typename R>(L const& l, R const& r)
     {
-      using namespace nucog::literal;
+      using namespace nucog::literals;
       constexpr tags::plus_ op = {};
 
       //--- Placeholders don't get simplified

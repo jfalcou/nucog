@@ -10,7 +10,7 @@
 
 TTS_CASE( "Check match for terminal" )
 {
-  using namespace nucog::literal;
+  using namespace nucog::literals;
 
   TTS_CONSTEXPR_EXPECT    ( nucog::match($(var)       , $(var)) );
   TTS_CONSTEXPR_EXPECT    ( nucog::match(nucog::var_  , $(var)) );
@@ -37,7 +37,7 @@ TTS_CASE( "Check match for terminal" )
 
 TTS_CASE( "Check match for unary node" )
 {
-  using namespace nucog::literal;
+  using namespace nucog::literals;
 
   TTS_CONSTEXPR_EXPECT( nucog::match(+$(var)              ,+$(var)) );
   TTS_CONSTEXPR_EXPECT( nucog::match(+nucog::term_        ,+$(var)) );
@@ -57,7 +57,7 @@ TTS_CASE( "Check match for unary node" )
 
 TTS_CASE( "Check match for binary plus" )
 {
-  using namespace nucog::literal;
+  using namespace nucog::literals;
 
   TTS_CONSTEXPR_EXPECT    ( nucog::match(nucog::term_ + nucog::term_, $(var) + $(cons)) );
   TTS_CONSTEXPR_EXPECT_NOT( nucog::match(+$(cons)                   , $(var) + $(var) ) );

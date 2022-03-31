@@ -10,7 +10,7 @@
 
 TTS_CASE( "Check evaluate visitor over terminal" )
 {
-  using namespace nucog::literal;
+  using namespace nucog::literals;
 
   auto f = $(var);
   TTS_EQUAL  ( f($(var) = 42.69), 42.69);

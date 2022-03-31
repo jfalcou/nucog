@@ -16,10 +16,10 @@ namespace nucog
   using kumi::index_t;
   using kumi::index;
 
-  namespace literal
+  namespace literals
   {
-    using rbr::literal::str_;
-    using namespace kumi::literal;
+    using rbr::literals::str_;
+    using namespace kumi::literals;
   }
 
   template<std::size_t N> inline constexpr index_t<N> const constant = {};
@@ -48,11 +48,11 @@ namespace kumi
 
 namespace nucog
 {
-  template<literal::str_ ID> struct symbol
+  template<literals::str_ ID> struct symbol
   {
     static constexpr auto id() noexcept { return ID; }
 
-    template<literal::str_ ID2>
+    template<literals::str_ ID2>
     friend constexpr auto operator==(symbol, symbol<ID2>) noexcept
     {
       if(ID.size() != ID2.size()) return false;
@@ -70,9 +70,9 @@ namespace nucog
   };
 }
 
-namespace nucog::literal
+namespace nucog::literals
 {
-  template<literal::str_ ID>
+  template<literals::str_ ID>
   constexpr auto operator""_sym() noexcept { return symbol<ID>{}; }
 }
 

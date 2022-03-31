@@ -10,7 +10,7 @@
 
 TTS_CASE( "Check terminal properties" )
 {
-  using namespace nucog::literal;
+  using namespace nucog::literals;
 
   auto s1  = $(x_);
 

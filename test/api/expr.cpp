@@ -10,7 +10,7 @@
 
 TTS_CASE( "Check unary expression properties" )
 {
-  using namespace nucog::literal;
+  using namespace nucog::literals;
   using nucog::x_;
 
   auto f = -x_;
@@ -22,7 +22,7 @@ TTS_CASE( "Check unary expression properties" )
 
 TTS_CASE( "Check binary expression properties" )
 {
-  using namespace nucog::literal;
+  using namespace nucog::literals;
   using nucog::x_;
 
   auto f = x_ * x_;

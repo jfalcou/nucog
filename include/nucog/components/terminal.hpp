@@ -79,7 +79,7 @@ namespace nucog
     return v;
   }
 
-  template<typename Environment, literal::str_ S>
+  template<typename Environment, literals::str_ S>
   constexpr auto eval(Environment const& env, tags::terminal_ const&, symbol<S> const&)
   {
     constexpr auto other  = terminal<symbol<S>>();

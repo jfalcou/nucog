@@ -5,7 +5,9 @@
   SPDX-License-Identifier: MIT
 */
 //==================================================================================================
-#pragma once
+#ifndef RABERU_HPP_INCLUDED
+#define RABERU_HPP_INCLUDED
+
 #include <ostream>
 #include <array>
 #include <string_view>
@@ -97,7 +99,7 @@ namespace rbr::detail
 namespace rbr
 {
   // ID user defined literal
-  namespace literal
+  namespace literals
   {
     template<std::size_t N> struct str_
     {
@@ -114,7 +116,7 @@ namespace rbr
     template<std::size_t N> str_(const char (&str)[N]) -> str_<N>;
   }
 
-  template<literal::str_ ID> struct id_
+  template<literals::str_ ID> struct id_
   {
     friend std::ostream& operator<<(std::ostream& os, id_ const& id)
     {
@@ -122,7 +124,7 @@ namespace rbr
     }
   };
 
-  namespace literal
+  namespace literals
   {
     template<str_ ID> constexpr auto operator""_id() noexcept { return id_<ID>{}; }
   }
@@ -324,7 +326,7 @@ namespace rbr
   constexpr typed_keyword<Tag, Type> keyword(Tag) noexcept { return {}; }
 
   // Keyword/Flag-type user defined literal
-  namespace literal
+  namespace literals
   {
     template<str_ ID>
     constexpr auto operator""_kw() noexcept { return any_keyword<id_<ID>>{}; }
@@ -492,3 +494,4 @@ namespace rbr
 }
 
 #undef RBR_FWD
+#endif

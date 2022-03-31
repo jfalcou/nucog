@@ -12,7 +12,7 @@
 TTS_CASE( "Check display visitor over terminal" )
 {;
   using namespace std::literals;
-  using namespace nucog::literal;
+  using namespace nucog::literals;
   using nucog::x_;
 
   std::ostringstream s;
@@ -29,7 +29,7 @@ TTS_CASE( "Check display visitor over terminal" )
 TTS_CASE( "Check display visitor over unary expression" )
 {
   using namespace std::literals;
-  using namespace nucog::literal;
+  using namespace nucog::literals;
   using nucog::x_;
   using nucog::y_;
 
@@ -52,7 +52,7 @@ TTS_CASE( "Check display visitor over unary expression" )
 TTS_CASE( "Check display visitor over binary expression" )
 {
   using namespace std::literals;
-  using namespace nucog::literal;
+  using namespace nucog::literals;
   using nucog::x_;
   using nucog::y_;
   using nucog::z_;

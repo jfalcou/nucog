@@ -13,7 +13,7 @@ namespace nucog
 {
   namespace naming
   {
-    using namespace nucog::literal;
+    using namespace nucog::literals;
 
     inline constexpr auto x_  = $(x_);
     inline constexpr auto y_  = $(y_);

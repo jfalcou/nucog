@@ -11,7 +11,7 @@
 TTS_CASE( "Check partial evaluation of expression" )
 {
   using namespace std::literals;
-  using namespace nucog::literal;
+  using namespace nucog::literals;
   using nucog::x_;
   using nucog::y_;
   using nucog::z_;

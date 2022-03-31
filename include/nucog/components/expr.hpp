@@ -27,10 +27,7 @@ namespace nucog
 
     static constexpr auto tree()     noexcept { return Tree();  }
 
-    template<typename Other> static constexpr bool match(Other t) noexcept
-    {
-      return Tree::match(t);
-    }
+    template<typename U> static constexpr bool match(U t) noexcept { return Tree::match(t); }
 
     template<std::size_t Index>
     constexpr decltype(auto) operator[]( index_t<Index> const&) const noexcept

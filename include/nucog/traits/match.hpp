@@ -12,10 +12,15 @@
 
 namespace nucog
 {
-  template<typename E1, typename E2>
-  constexpr bool match(E1 const&, E2 const&) noexcept
+  template<typename P, typename E>
+  constexpr bool match(P const&, E const&) noexcept
   {
-    if constexpr(E1::is_placeholder())  return E2::match(E1{});
-    else                                return E1::match(E2{});
+    return E::match(P{});
+  }
+
+  template<typename P, typename... Es>
+  constexpr bool matches(P const& p, Es const&... es) noexcept
+  {
+    return (match(p,es) && ... && true);
   }
 }

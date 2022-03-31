@@ -41,9 +41,54 @@ namespace nucog
 
   template<typename LHS, typename RHS>
   requires support_overload<LHS,RHS>
+  NUCOG_FORCEINLINE constexpr auto operator*( LHS const& lhs, RHS const& rhs ) noexcept
+  {
+    return node{tags::multiplies_{},as_expr(lhs), as_expr(rhs)};
+  }
+
+  template<typename LHS, typename RHS>
+  requires support_overload<LHS,RHS>
   NUCOG_FORCEINLINE constexpr auto operator+( LHS const& lhs, RHS const& rhs ) noexcept
   {
-    return node{tags::plus_{}, as_expr(lhs), as_expr(rhs)};
+    // Apply safe simplification
+    auto build = []<typename L, typename R>(L const& l, R const& r)
+    {
+      using namespace nucog::literal;
+      constexpr tags::plus_ op = {};
+
+      //--- Placeholders don't get simplified
+            if constexpr( L::is_placeholder() || R::is_placeholder() )  return node{op,l,r};
+      //--- 0 is identity for +
+      else  if constexpr( L::match(0_c)           ) return r;
+      else  if constexpr( R::match(0_c)           ) return l;
+      //--- compact literals
+      else  if constexpr( matches(lit_, L{}, R{}) ) return as_expr(l.value() + r.value());
+      //--- Handle all permutation of (lit * expr)/(expr * lit)/lit sum
+      else  if constexpr( matches(lit_ * expr_,L{},R{}) && L{}[1_c].match(R{}[1_c]) )
+                                                    return (l[0_c].value()+r[0_c].value()) * l[1_c];
+      else  if constexpr( matches(expr_ * lit_,L{},R{}) && L{}[0_c].match(R{}[0_c]) )
+                                                    return (l[1_c].value()+r[1_c].value()) * l[0_c];
+      else  if constexpr(   L::match(expr_ * lit_) && R::match(lit_ * expr_)
+                        &&  L{}[0_c].match(R{}[1_c])
+                        )
+                                                    return (l[1_c].value()+r[0_c].value()) * l[0_c];
+      else  if constexpr(   L::match(lit_ * expr_) && R::match(expr_ * lit_)
+                        &&  L{}[1_c].match(R{}[0_c])
+                        )
+                                                    return (l[0_c].value()+r[1_c].value()) * l[1_c];
+      else  if constexpr( L::match(expr_ * lit_) && R::match(L{}[0_c]) )
+                                                    return (l[1_c].value()+1_c) * l[0_c];
+      else  if constexpr( R::match(expr_ * lit_) && L::match(R{}[0_c]) )
+                                                    return (r[1_c].value()+1_c) * r[0_c];
+      else  if constexpr( L::match(lit_ * expr_) && R::match(L{}[1_c]) )
+                                                    return (l[0_c].value()+1_c) * l[1_c];
+      else  if constexpr( R::match(lit_ * expr_) && L::match(R{}[1_c]) )
+                                                    return (r[0_c].value()+1_c) * r[1_c];
+      //--- No simplification found
+      else                                          return node{op, l, r};
+    };
+
+    return build(as_expr(lhs), as_expr(rhs));
   }
 
   template<typename LHS, typename RHS>
@@ -53,12 +98,6 @@ namespace nucog
     return node{tags::minus_{}, as_expr(lhs), as_expr(rhs)};
   }
 
-  template<typename LHS, typename RHS>
-  requires support_overload<LHS,RHS>
-  NUCOG_FORCEINLINE constexpr auto operator*( LHS const& lhs, RHS const& rhs ) noexcept
-  {
-    return node{tags::multiplies_{},as_expr(lhs), as_expr(rhs)};
-  }
 
   template<typename LHS, typename RHS>
   requires support_overload<LHS,RHS>

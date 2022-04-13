@@ -28,11 +28,6 @@ install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/nucog TYPE INCLUDE)
 ## =================================================================================================
 add_library(nucog_lib INTERFACE)
 target_include_directories(nucog_lib INTERFACE $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>)
-
-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-target_compile_options( nucog_lib INTERFACE -Wno-gnu-string-literal-operator-template)
-endif()
-
 target_compile_features(nucog_lib INTERFACE cxx_std_20)
 add_library(nucog::nucog ALIAS nucog_lib)
 

@@ -34,6 +34,12 @@ namespace kumi
   }
 
   template<std::size_t N, std::size_t M>
+  constexpr auto operator-(index_t<N>, index_t<M>) noexcept
+  {
+    return index<N-M>;
+  }
+
+  template<std::size_t N, std::size_t M>
   constexpr auto operator*(index_t<N>, index_t<M>) noexcept
   {
     return index<N*M>;

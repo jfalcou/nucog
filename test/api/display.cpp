@@ -41,12 +41,12 @@ TTS_CASE( "Check display visitor over unary expression" )
   std::ostringstream r1;
   r1 << +(+x_);
   auto s1 = r1.str();
-  TTS_EQUAL(s1, "+(+(x_))"s);
+  TTS_EQUAL(s1, "+(x_)"s);
 
   std::ostringstream r2;
   r2 << +(-(+x_));
   auto s2 = r2.str();
-  TTS_EQUAL(s2, "+(-(+(x_)))"s);
+  TTS_EQUAL(s2, "-(x_)"s);
 };
 
 TTS_CASE( "Check display visitor over binary expression" )

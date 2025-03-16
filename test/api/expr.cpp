@@ -24,11 +24,12 @@ TTS_CASE( "Check binary expression properties" )
 {
   using namespace nucog::literals;
   using nucog::x_;
+  using nucog::y_;
 
-  auto f = x_ * x_;
+  auto f = x_ * y_;
 
   TTS_EQUAL( f.arity()           , 2ULL                       );
   TTS_EQUAL( f.tag()             , nucog::tags::multiplies_{} );
   TTS_EQUAL( f[0_c].value(), "x_"_sym                         );
-  TTS_EQUAL( f[1_c].value(), "x_"_sym                         );
+  TTS_EQUAL( f[1_c].value(), "y_"_sym                         );
 };

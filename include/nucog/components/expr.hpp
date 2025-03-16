@@ -25,8 +25,6 @@ namespace nucog
     constexpr auto value()    const noexcept { return self().value();     }
     constexpr auto children() const noexcept { return self().children();  }
 
-    static constexpr auto tree()     noexcept { return Tree();  }
-
     template<typename U> static constexpr bool match(U t) noexcept { return Tree::match(t); }
 
     template<std::size_t Index>

@@ -29,13 +29,21 @@ TTS_CASE( "Check evaluate visitor over unary expression" )
   TTS_EQUAL( g(y_ = 1337 ), 1337  );
 };
 
+auto eval( formula_with<$(mass_), $(distance_)> f )
+auto eval( formula_exactly_with<$(mass_), $(distance_)> f )
+
+
+auto ff = $(my huge value) + $(the other big var);
+std::transform(some_vector, arg<0> + arg<1>);
+
+
 TTS_CASE( "Check evaluate visitor over binary expression" )
 {
   using nucog::x_;
   using nucog::y_;
   using nucog::z_;
 
-  TTS_EQUAL( (x_ + x_)( x_ = 4.5f )         ,  9.f);
+  TTS_EQUAL( f( x_ = 4.5f )         ,  9.f);
   TTS_EQUAL( (y_ + x_)( x_ = 40 , y_ = 2.f ), 42.f);
   TTS_EQUAL( (x_ + y_)( y_ = 40., x_ = 0x02), 42. );
   TTS_EQUAL( (x_ - y_)( y_ = 8  , x_ = 50. ), 42. );
